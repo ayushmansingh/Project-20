@@ -410,7 +410,7 @@
     <div class="wrap center">
       <p class="eyebrow reveal">Set the mood</p>
       <h2 class="display reveal">The playlist</h2>
-      <p class="lead reveal" style="max-width:48ch;margin:0 auto">Add the songs you want to hear — search Spotify, tap, and they go straight onto our wedding playlist.</p>
+      <p class="lead reveal" style="max-width:48ch;margin:0 auto">Request the songs you want to hear — search, tap, and we'll add our favourites to the playlist below.</p>
     </div>
     <div class="wrap">
       <div class="pl-search reveal">
@@ -564,20 +564,21 @@
   });
 })();
 
-/* ---------- playlist (Spotify) ---------- */
+/* ---------- playlist: search Spotify + request songs ---------- */
 (function(){
   const q=document.getElementById('plq'); if(!q) return;
   const results=document.getElementById('plResults'), note=document.getElementById('plNote');
   const esc=s=>(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-  const offline='🎵 Song search goes live once the site is deployed to Netlify and Spotify is connected.';
-  const rowHtml=(t,btn)=>'<div class="pl-row" data-uri="'+esc(t.uri)+'"><img src="'+esc(t.img)+'" alt="" loading="lazy"><div class="meta"><div class="t">'+esc(t.name)+'</div><div class="a">'+esc(t.artists)+'</div></div>'+btn+'</div>';
+  const offline='🎵 Song search goes live on the deployed site.';
+  const trackUrl=u=>'https://open.spotify.com/track/'+String(u||'').split(':').pop();
+  const rowHtml=(t,btn)=>'<div class="pl-row" data-uri="'+esc(t.uri)+'" data-name="'+esc(t.name)+'" data-artists="'+esc(t.artists)+'" data-img="'+esc(t.img)+'"><img src="'+esc(t.img)+'" alt="" loading="lazy"><div class="meta"><div class="t">'+esc(t.name)+'</div><div class="a">'+esc(t.artists)+'</div></div>'+btn+'</div>';
   let timer=null,last='';
   async function search(term){
     try{
       const r=await fetch('/.netlify/functions/search?q='+encodeURIComponent(term));
       if(!r.ok) throw 0;
       const j=await r.json();
-      results.innerHTML=(j.items||[]).map(t=>rowHtml(t,'<button class="pl-add" type="button">Add</button>')).join('');
+      results.innerHTML=(j.items||[]).map(t=>rowHtml(t,'<button class="pl-add" type="button">Request</button>')).join('');
       note.textContent=(j.items&&j.items.length)?'':'No songs found — try another search.';
     }catch(e){ results.innerHTML=''; note.textContent=offline; }
   }
@@ -588,36 +589,38 @@
   });
   results.addEventListener('click',async e=>{
     const btn=e.target.closest('.pl-add'); if(!btn) return;
-    const uri=btn.closest('.pl-row').dataset.uri;
+    const row=btn.closest('.pl-row');
+    const payload={uri:row.dataset.uri,name:row.dataset.name,artists:row.dataset.artists,img:row.dataset.img};
     btn.disabled=true; btn.textContent='…';
     try{
-      const r=await fetch('/.netlify/functions/add',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({uri})});
-      if(r.ok){btn.textContent='Added ✓';btn.classList.add('added');}
-      else if(r.status===503){btn.disabled=false;btn.textContent='Add';note.textContent='The playlist isn’t connected yet — setup needs finishing.';}
-      else{btn.disabled=false;btn.textContent='Add';note.textContent='That didn’t go through — try again.';}
-    }catch(e){btn.disabled=false;btn.textContent='Add';note.textContent=offline;}
+      const r=await fetch('/.netlify/functions/request',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)});
+      if(r.ok){btn.textContent='Requested ✓';btn.classList.add('added');note.textContent='';}
+      else{btn.disabled=false;btn.textContent='Request';note.textContent='That didn’t go through — try again.';}
+    }catch(e){btn.disabled=false;btn.textContent='Request';note.textContent=offline;}
   });
+  // admin: review requests, open in Spotify to add, or remove
   const tog=document.getElementById('plAdminToggle'),panel=document.getElementById('plAdmin');
   tog.addEventListener('click',()=>{
     panel.hidden=!panel.hidden;
     if(panel.dataset.init) return; panel.dataset.init='1';
-    panel.innerHTML='<div class="arow"><input id="plPw" type="password" placeholder="Admin password" autocomplete="off"><button id="plLoad" type="button">Load</button></div><div id="plList" class="pl-results"></div><div id="plANote" class="pl-note"></div>';
-    const list=panel.querySelector('#plList'),an=panel.querySelector('#plANote');
+    panel.innerHTML='<div class="arow"><input id="plPw" type="password" placeholder="Admin password" autocomplete="off"><button id="plLoad" type="button">Load requests</button></div><div id="plList" class="pl-results"></div><div id="plANote" class="pl-note"></div>';
+    const list=panel.querySelector('#plList'),an=panel.querySelector('#plANote'),pwEl=panel.querySelector('#plPw');
     panel.querySelector('#plLoad').addEventListener('click',async()=>{
       an.textContent='Loading…';
-      try{const r=await fetch('/.netlify/functions/playlist');const j=await r.json();
-        list.innerHTML=(j.items||[]).map(t=>rowHtml(t,'<button class="pl-add pl-rm" type="button">Remove</button>')).join('');
-        an.textContent=(j.items&&j.items.length)?'':'Playlist is empty.';
+      try{const r=await fetch('/.netlify/functions/requests?pw='+encodeURIComponent(pwEl.value));
+        if(r.status===401){an.textContent='Wrong password.';return;}
+        const j=await r.json();
+        list.innerHTML=(j.items||[]).map(t=>rowHtml(t,'<a class="pl-add" href="'+trackUrl(t.uri)+'" target="_blank" rel="noopener">Open ↗</a> <button class="pl-add pl-rm" type="button">Remove</button>')).join('');
+        an.textContent=(j.items&&j.items.length)?(j.items.length+' request'+(j.items.length>1?'s':'')+' · open each and add to your Spotify playlist'):'No requests yet.';
       }catch(e){an.textContent=offline;}
     });
     list.addEventListener('click',async e=>{
       const btn=e.target.closest('.pl-rm'); if(!btn) return;
-      const row=btn.closest('.pl-row'),uri=row.dataset.uri,pw=panel.querySelector('#plPw').value;
+      const row=btn.closest('.pl-row'),uri=row.dataset.uri;
       btn.disabled=true;btn.textContent='…';
-      try{const r=await fetch('/.netlify/functions/remove',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({uri,password:pw})});
+      try{const r=await fetch('/.netlify/functions/request-remove',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({uri,password:pwEl.value})});
         if(r.ok){row.remove();}
-        else if(r.status===401){btn.disabled=false;btn.textContent='Remove';an.textContent='Wrong password.';}
-        else{btn.disabled=false;btn.textContent='Remove';an.textContent='Couldn’t remove that one.';}
+        else{btn.disabled=false;btn.textContent='Remove';an.textContent=r.status===401?'Wrong password.':'Couldn’t remove that one.';}
       }catch(e){btn.disabled=false;btn.textContent='Remove';}
     });
   });
