@@ -1,2 +1,9 @@
-# Local Netlify folder
+# dependencies (Netlify installs these on deploy)
+node_modules/
+
+# local Netlify state
 .netlify
+
+# OS cruft
+.DS_Store
+**/.DS_Store
