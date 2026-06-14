@@ -18,6 +18,7 @@ export default async (req) => {
       scope: 'playlist-modify-public playlist-modify-private',
       redirect_uri: redirect,
       state: pw,
+      show_dialog: 'true',
     });
   return new Response(null, { status: 302, headers: { location: authUrl } });
 };
