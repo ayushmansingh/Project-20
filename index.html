@@ -141,9 +141,16 @@
   .hotel .muted{font-size:14px;color:var(--gold-deep);letter-spacing:.04em}
   .hotel p{font-size:16px;color:var(--ink);margin:10px 0 14px;opacity:.9}
   .hotel a{font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--red);text-decoration:none;border-bottom:1px solid var(--blush);padding-bottom:2px}
-  .venue{margin-top:clamp(36px,5vw,56px);text-align:center}
-  .venue h4{font-family:"Great Vibes",cursive;font-size:clamp(2rem,4.5vw,3rem);color:var(--red)}
-  .venue p{font-size:17px;color:var(--ink);opacity:.9;margin-top:6px}
+  .venue{margin-top:clamp(46px,6vw,76px);text-align:center;background:var(--cream-2);border:1px solid rgba(154,122,48,.35);
+    border-radius:12px;padding:clamp(30px,4vw,52px);box-shadow:0 18px 44px -30px rgba(60,16,12,.45);position:relative}
+  .venue::after{content:"";position:absolute;inset:9px;border:1px solid rgba(154,122,48,.25);border-radius:7px;pointer-events:none}
+  .venue .eyebrow{display:block;margin-bottom:8px}
+  .venue h4{font-family:"Great Vibes",cursive;font-size:clamp(2.6rem,6.5vw,4.4rem);color:var(--red);line-height:1.02}
+  .venue-sub{font-size:14px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-deep);margin-top:8px}
+  .venue-desc{font-size:17px;line-height:1.7;color:var(--ink);opacity:.92;margin:16px auto 0;max-width:44ch}
+  .venue-link{display:inline-block;margin-top:22px;font-size:13px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--red);text-decoration:none;border-bottom:1px solid var(--blush);padding-bottom:3px;transition:color .2s,border-color .2s}
+  .venue-link:hover{color:var(--gold-deep);border-color:var(--gold-deep)}
 
   /* ---------- RSVP ---------- */
   .rsvp-card{position:relative;z-index:3;width:min(640px,92%);margin:clamp(36px,5vw,56px) auto 0;background:var(--cream-2);
@@ -382,25 +389,23 @@
   <!-- ===================== TRAVEL ===================== -->
   <section class="section section--cream" id="travel">
     <div class="wrap center">
-      <p class="eyebrow reveal">Getting there &amp; staying</p>
-      <h2 class="display reveal">Travel &amp; stay</h2>
-      <p class="lead reveal" style="max-width:46ch;margin:0 auto">Gwalior is easy to reach by air, rail and road. Here's how to plan it.</p>
+      <p class="eyebrow reveal">Getting to Gwalior</p>
+      <h2 class="display reveal">Travel</h2>
+      <p class="lead reveal" style="max-width:48ch;margin:0 auto">Gwalior is easy to reach by air, rail and road — and every celebration happens at one address.</p>
     </div>
     <div class="wrap">
       <div class="triple">
         <div class="info reveal"><i>✈</i><h4>By air</h4><p>Gwalior Airport (GWL) is ~10 km from the city. Indore, Bhopal and Delhi are the nearest large hubs with onward connections.</p></div>
         <div class="info reveal"><i>❖</i><h4>By train</h4><p>Gwalior Junction sits on the main Delhi–Chennai line, with fast connections from Delhi (~3–4 hrs) and Agra (~1.5 hrs).</p></div>
-        <div class="info reveal"><i>❀</i><h4>By road</h4><p>An easy drive from Agra (~120 km) and Delhi (~320 km) on the expressway. We'll arrange shuttles between venues.</p></div>
+        <div class="info reveal"><i>❀</i><h4>By road</h4><p>An easy, scenic drive from Agra (~120 km) and Delhi (~320 km) on the expressway, right up to the resort.</p></div>
       </div>
-      <div class="hotels">
-        <div class="hotel reveal"><h4>The host hotel</h4><div class="muted">Our room block · 0 km from festivities</div>
-          <p>Our recommended stay, with a block of rooms reserved for guests. Shuttles run from here to every event.</p>
-          <a href="#rsvp">Book with our code →</a></div>
-        <div class="hotel reveal"><h4>A second option</h4><div class="muted">A short ride away · mid-range</div>
-          <p>A comfortable alternative nearby for guests who'd like a few more options on budget and style.</p>
-          <a href="#rsvp">Book with our code →</a></div>
+      <div class="venue reveal">
+        <p class="eyebrow">Where it all happens</p>
+        <h4>Empire Resorts</h4>
+        <p class="venue-sub">Gwalior, Madhya Pradesh</p>
+        <p class="venue-desc">Every celebration — from the Haldi to the Reception — unfolds right here, all under one roof. Just bring yourself.</p>
+        <a class="venue-link" href="https://www.google.com/maps/search/?api=1&amp;query=Empire+Resorts+Gwalior" target="_blank" rel="noopener">Get directions ↗</a>
       </div>
-      <div class="venue reveal"><h4>The venue</h4><p>All celebrations take place in Gwalior · full address on your invitation.</p></div>
     </div>
   </section>
 
