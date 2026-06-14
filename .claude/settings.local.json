@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__stitch__update_design_system",
+      "mcp__stitch__create_design_system",
+      "Read(//private/tmp/**)",
+      "Bash(curl -sL \"https://lh3.googleusercontent.com/aida/AP1WRLsNfeufYoUqdtKTObzYQi0o71sKEi6sSzQF4CZTT67kw4KUjJcIDQC4bJNnAJxdOQWwHNfnyT1A9sICzbCLg7FigRMa_-SXoY3AFnyeHMYekhsxAGYzQjlirUBjwebwKXRmreV2WJnTd8bU9uTw1Y_YOU50XqIHxUip1NH9rRqLQfgMchYn3G1HjGIV63SwA6jINphQ-yOjEz2Or2p_X6ngiGKob48gyfmR7m-exUMzPHZRG5KaUbmjnjcE\" -o da_baraat.png)",
+      "mcp__stitch__generate_screen_from_text",
+      "Bash(curl -sL \"https://lh3.googleusercontent.com/aida/AP1WRLsOXiIf_uX5MQsEPht_M5zWCJGtV_Hbtn2xlf1TiFE1IXw7ZSV873isx9R-XPVESziXgQflpgj9whbV5ekbtAmnhngSl8RtGKM7GOWrABPtxU4TaoqsbVFTAS-IQcNHZbLKtIbyiUnm7H0yx_hVBJUScwXwYI6o3zzOvuFPx12RC0paNTvtLx0ncuQ6hJmmM3woou2neH2qeeZVPNyD1GyNDNo-_Hts1KvtTTuJfQJMjNHs3xYR5uHDiLAm\" -o \"/Users/ayushmansingh/Desktop/Projects-Base/Wedding/assets/hero-botanical.png\")",
+      "mcp__Claude_Preview__preview_start"
+    ]
+  }
+}

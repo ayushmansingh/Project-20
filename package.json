@@ -1,0 +1,10 @@
+{
+  "name": "dhwani-ayushman-wedding",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Wedding site with Spotify-powered guest playlist",
+  "dependencies": {
+    "@netlify/blobs": "^8.0.0"
+  }
+}
