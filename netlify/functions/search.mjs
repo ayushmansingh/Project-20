@@ -6,7 +6,7 @@ export default async (req) => {
   try {
     const token = await appToken();
     const r = await fetch(
-      'https://api.spotify.com/v1/search?type=track&limit=8&market=IN&q=' + encodeURIComponent(q),
+      'https://api.spotify.com/v1/search?type=track&limit=3&market=IN&q=' + encodeURIComponent(q),
       { headers: { authorization: 'Bearer ' + token } }
     );
     const j = await r.json();
