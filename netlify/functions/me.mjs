@@ -33,8 +33,20 @@ export default async (req) => {
   const me = await meR.json();
   const pl = await plR.json();
 
+  // Optional write test: /me?pw=...&write=1 attempts an actual add with THIS token.
+  let write_test = null;
+  if (new URL(req.url).searchParams.get('write') === '1') {
+    const wr = await fetch(`https://api.spotify.com/v1/playlists/${PLAYLIST}/tracks`, {
+      method: 'POST',
+      headers: { authorization: 'Bearer ' + at, 'content-type': 'application/json' },
+      body: JSON.stringify({ uris: ['spotify:track:0tgVpDi06FyKpA1z0VMD4v'] }),
+    });
+    write_test = { status: wr.status, body: await wr.text() };
+  }
+
   return json(200, {
     connected: true,
+    write_test,
     granted_scope: tj.scope || null,
     connected_account: { id: me.id || null, name: me.display_name || null, http: meR.status },
     playlist: {
