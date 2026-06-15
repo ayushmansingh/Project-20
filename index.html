@@ -802,7 +802,9 @@
 
   function update(){
     const vh=window.innerHeight, st=window.scrollY;
-    const frac=total?Math.max(0,Math.min(1,(st+vh*0.9-start)/total)):0;
+    // keep the drawing tip ~75% down the viewport (top of the bottom quarter),
+    // so there's always empty space below it that the vine visibly grows into.
+    const frac=total?Math.max(0,Math.min(1,(st+vh*0.75-start)/total)):0;
     const off=reduce?0:(1-frac);
     for(const p of paths) p.style.strokeDashoffset=off;
   }
