@@ -151,6 +151,8 @@
   .venue-link{display:inline-block;margin-top:22px;font-size:13px;letter-spacing:.16em;text-transform:uppercase;
     color:var(--red);text-decoration:none;border-bottom:1px solid var(--blush);padding-bottom:3px;transition:color .2s,border-color .2s}
   .venue-link:hover{color:var(--gold-deep);border-color:var(--gold-deep)}
+  .venue-img{width:100%;border-radius:8px;margin-bottom:clamp(20px,2.8vw,32px);
+    box-shadow:0 8px 24px -12px rgba(60,16,12,.35);object-fit:cover}
 
   /* ---------- RSVP ---------- */
   .rsvp-card{position:relative;z-index:3;width:min(640px,92%);margin:clamp(36px,5vw,56px) auto 0;background:var(--cream-2);
@@ -400,6 +402,7 @@
         <div class="info reveal"><i>❀</i><h4>By road</h4><p>An easy, scenic drive from Agra (~120 km) and Delhi (~320 km) on the expressway, right up to the resort.</p></div>
       </div>
       <div class="venue reveal">
+        <img class="venue-img" src="assets/empire-resort.png" alt="The Empire Resort, Gwalior" loading="lazy" onerror="this.style.display='none'">
         <p class="eyebrow">Where it all happens</p>
         <h4>Empire Resorts</h4>
         <p class="venue-sub">Gwalior, Madhya Pradesh</p>
