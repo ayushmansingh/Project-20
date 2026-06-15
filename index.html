@@ -188,6 +188,18 @@
   .collage{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:clamp(34px,5vw,52px)}
   .collage .photo{aspect-ratio:1}
   .collage .t{grid-row:span 2;aspect-ratio:3/5}
+  .collage a.photo{text-decoration:none;overflow:hidden}
+  .collage a.photo img{width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;transition:transform .4s ease}
+  .collage a.photo:hover img{transform:scale(1.04)}
+  /* upload */
+  .gp-upload{margin:clamp(22px,3vw,34px) auto 0;display:flex;flex-direction:column;align-items:center;gap:11px}
+  .gp-btn{font-family:"Cormorant Garamond",serif;font-size:18px;letter-spacing:.06em;color:var(--red);
+    background:transparent;border:1.5px solid var(--red);border-radius:999px;padding:12px 30px;cursor:pointer;transition:all .2s}
+  .gp-btn:hover{background:var(--red);color:var(--cream-2)}
+  .gp-btn:disabled{opacity:.5;cursor:default}
+  .gp-bar{width:min(300px,70%);height:4px;background:rgba(154,122,48,.22);border-radius:999px;overflow:hidden}
+  .gp-bar-fill{height:100%;width:0%;background:var(--red);border-radius:999px;transition:width .25s ease}
+  .gp-note{font-size:16px;font-style:italic;color:var(--gold-deep);min-height:20px;text-align:center}
   .closing{text-align:center;margin-top:clamp(56px,8vw,96px)}
   .closing .big{font-family:"Great Vibes",cursive;font-size:clamp(2.6rem,7vw,5rem);color:var(--red);line-height:1.08;max-width:16ch;margin:0 auto}
   .closing .mono{width:54px;height:54px;font-size:18px;color:var(--red);border-color:var(--gold-deep);margin:26px auto 14px}
@@ -467,9 +479,16 @@
     <div class="wrap center">
       <p class="eyebrow reveal">Moments</p>
       <h2 class="display reveal">Us, lately</h2>
+      <p class="lead reveal" style="max-width:46ch;margin:12px auto 0">Your photos become part of our story — share a moment with us.</p>
+      <div class="gp-upload reveal">
+        <input type="file" id="gpFile" accept="image/*" hidden>
+        <button class="gp-btn" type="button" id="gpPickBtn">📷 Share a photo</button>
+        <div id="gpBar" class="gp-bar" hidden><div id="gpBarFill" class="gp-bar-fill"></div></div>
+        <p id="gpNote" class="gp-note"></p>
+      </div>
     </div>
     <div class="wrap">
-      <div class="collage reveal">
+      <div class="collage reveal" id="gpGrid">
         <div class="photo t"><i>❀</i><span>photo</span></div>
         <div class="photo"><i>❀</i><span>photo</span></div>
         <div class="photo"><i>❀</i><span>photo</span></div>
@@ -631,6 +650,71 @@
         else{btn.disabled=false;btn.textContent='Remove';an.textContent=r.status===401?'Wrong password.':'Couldn’t remove that one.';}
       }catch(e){btn.disabled=false;btn.textContent='Remove';}
     });
+  });
+})();
+
+/* ---------- Gallery: Google Photos ---------- */
+(function(){
+  const grid=document.getElementById('gpGrid');
+  const fileInput=document.getElementById('gpFile');
+  const btn=document.getElementById('gpPickBtn');
+  const bar=document.getElementById('gpBar');
+  const barFill=document.getElementById('gpBarFill');
+  const note=document.getElementById('gpNote');
+  if(!grid||!btn) return;
+  const esc=s=>(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const TALL=[0,5];
+
+  async function loadPhotos(){
+    try{
+      const r=await fetch('/.netlify/functions/gp-photos');
+      if(!r.ok) return;
+      const {photos}=await r.json();
+      if(!photos||!photos.length) return;
+      grid.innerHTML=photos.slice(0,7).map((p,i)=>{
+        const tall=TALL.includes(i);
+        return `<a class="photo ${tall?'t':''}" href="${esc(p.url+'=w2000')}" target="_blank" rel="noopener" style="display:block;overflow:hidden;padding:0">
+          <img src="${esc(p.url+'=w800-h1000')}" alt="A wedding moment" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block">
+        </a>`;
+      }).join('');
+    }catch(e){}
+  }
+  loadPhotos();
+
+  btn.addEventListener('click',()=>fileInput.click());
+  fileInput.addEventListener('change',async()=>{
+    const file=fileInput.files[0]; if(!file) return;
+    if(file.size>8_000_000){note.textContent='Photo must be under 8 MB.';return;}
+    btn.disabled=true; bar.hidden=false; note.textContent='';
+    const form=new FormData(); form.append('photo',file);
+    // real upload progress via XHR
+    try{
+      await new Promise((resolve,reject)=>{
+        const xhr=new XMLHttpRequest();
+        xhr.upload.addEventListener('progress',e=>{
+          if(e.lengthComputable) barFill.style.width=Math.round(e.loaded/e.total*90)+'%';
+        });
+        xhr.addEventListener('load',()=>{
+          barFill.style.width='100%';
+          if(xhr.status>=200&&xhr.status<300) resolve(xhr.responseText);
+          else reject(JSON.parse(xhr.responseText||'{}'));
+        });
+        xhr.addEventListener('error',()=>reject({error:'network'}));
+        xhr.open('POST','/.netlify/functions/gp-upload');
+        xhr.send(form);
+      });
+      note.textContent='✓ Photo shared — thank you!';
+      fileInput.value='';
+      setTimeout(()=>{bar.hidden=true;barFill.style.width='0%';},700);
+      setTimeout(loadPhotos,1400);
+    }catch(err){
+      bar.hidden=true; barFill.style.width='0%';
+      note.textContent=(err&&err.error==='google_not_connected')
+        ?'Photo sharing isn\'t active yet.'
+        :'Upload failed — please try again.';
+    }finally{
+      btn.disabled=false;
+    }
   });
 })();
 </script>
