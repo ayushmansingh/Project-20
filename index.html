@@ -261,7 +261,11 @@
   .kolam__v{position:absolute;top:0;overflow:visible}
   .kolam__v path{fill:none;stroke:var(--gold);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;
     opacity:.7;filter:drop-shadow(0 0 2px rgba(201,162,78,.35))}
-  .kolam__nib{fill:#F4D9B0;opacity:0;transition:opacity .25s ease;filter:drop-shadow(0 0 5px rgba(244,217,176,.95)) drop-shadow(0 0 9px rgba(201,162,78,.7))}
+  .kolam__nib{fill:#FBE7C4;opacity:0;transition:opacity .25s ease;
+    filter:drop-shadow(0 0 5px rgba(251,231,196,1)) drop-shadow(0 0 11px rgba(201,162,78,.85));
+    animation:nibpulse 1.5s ease-in-out infinite}
+  @keyframes nibpulse{0%,100%{filter:drop-shadow(0 0 4px rgba(251,231,196,1)) drop-shadow(0 0 8px rgba(201,162,78,.7))}
+    50%{filter:drop-shadow(0 0 7px rgba(251,231,196,1)) drop-shadow(0 0 14px rgba(201,162,78,.95))}}
   @media(max-width:600px){.kolam__v path{stroke-width:1.3;opacity:.62}}
 
   @keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
@@ -800,16 +804,19 @@
       p.setAttribute('pathLength','1');
       p.style.strokeDasharray='1';
       lens[i]=p.getTotalLength();
-      nibs[i].setAttribute('r',Math.max(1.8,band*0.17).toFixed(1));
+      nibs[i].setAttribute('r',Math.max(2.2,band*0.22).toFixed(1));
     });
-    update();
+    cur=targetFrac(); render(cur);   // snap on (re)build, no animation
   }
 
-  function update(){
+  // where the drawing frontier "wants" to be: ~60% down the viewport, so a big
+  // chunk of every screen is visibly undrawn and forms as you scroll into it.
+  function targetFrac(){
     const vh=window.innerHeight, st=window.scrollY;
-    // keep the drawing tip ~75% down the viewport (top of the bottom quarter),
-    // so there's always empty space below it that the vine visibly grows into.
-    const frac=total?Math.max(0,Math.min(1,(st+vh*0.75-start)/total)):0;
+    return total?Math.max(0,Math.min(1,(st+vh*0.6-start)/total)):0;
+  }
+
+  function render(frac){
     for(let i=0;i<paths.length;i++){
       paths[i].style.strokeDashoffset=reduce?0:(1-frac);
       const nib=nibs[i];
@@ -823,8 +830,17 @@
     }
   }
 
-  let ticking=false;
-  addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(function(){update();ticking=false;});}},{passive:true});
+  // eased catch-up: the drawn length chases the target, so the glowing nib
+  // visibly travels ahead each time you scroll instead of sitting still.
+  let cur=0,raf=0;
+  function tick(){
+    const t=targetFrac(), d=t-cur;
+    if(Math.abs(d)<0.0006){cur=t;render(cur);raf=0;return;}
+    cur+=d*0.09; render(cur);
+    raf=requestAnimationFrame(tick);
+  }
+  function onScroll(){ if(reduce){render(1);return;} if(!raf) raf=requestAnimationFrame(tick); }
+  addEventListener('scroll',onScroll,{passive:true});
   let rt; function rebuild(){clearTimeout(rt);rt=setTimeout(build,200);}
   addEventListener('resize',rebuild);
   if('ResizeObserver' in window){new ResizeObserver(rebuild).observe(document.body);}
