@@ -259,9 +259,10 @@
   /* ---------- scroll-drawn kolam spine ---------- */
   .kolam{position:absolute;top:0;left:0;width:100%;pointer-events:none;z-index:6;overflow:visible}
   .kolam__v{position:absolute;top:0;overflow:visible}
-  .kolam__v path{fill:none;stroke:var(--gold);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;
-    opacity:.6;filter:drop-shadow(0 0 2px rgba(201,162,78,.3))}
-  @media(max-width:600px){.kolam__v path{stroke-width:1.1;opacity:.5}}
+  .kolam__v path{fill:none;stroke:var(--gold);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;
+    opacity:.7;filter:drop-shadow(0 0 2px rgba(201,162,78,.35))}
+  .kolam__nib{fill:#F4D9B0;opacity:0;transition:opacity .25s ease;filter:drop-shadow(0 0 5px rgba(244,217,176,.95)) drop-shadow(0 0 9px rgba(201,162,78,.7))}
+  @media(max-width:600px){.kolam__v path{stroke-width:1.3;opacity:.62}}
 
   @keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
   @keyframes cue{0%,100%{transform:scaleY(.3);transform-origin:top;opacity:.4}50%{transform:scaleY(1);opacity:1}}
@@ -320,8 +321,8 @@
 
   <!-- scroll-drawn kolam spine -->
   <div class="kolam" id="kolam" aria-hidden="true">
-    <svg class="kolam__v" data-side="l"><path></path></svg>
-    <svg class="kolam__v" data-side="r"><path></path></svg>
+    <svg class="kolam__v" data-side="l"><path></path><circle class="kolam__nib" r="0"></circle></svg>
+    <svg class="kolam__v" data-side="r"><path></path><circle class="kolam__nib" r="0"></circle></svg>
   </div>
 
   <!-- ===================== HERO ===================== -->
@@ -748,6 +749,8 @@
   const wrap=document.getElementById('kolam'); if(!wrap) return;
   const svgs=[].slice.call(wrap.querySelectorAll('.kolam__v'));
   const paths=svgs.map(s=>s.querySelector('path'));
+  const nibs=svgs.map(s=>s.querySelector('.kolam__nib'));
+  const lens=[];
   const hero=document.getElementById('top');
   const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
   let start=0,total=0;
@@ -796,6 +799,8 @@
       p.setAttribute('d',vinePath(band,amp,total,i===0?-1:1));
       p.setAttribute('pathLength','1');
       p.style.strokeDasharray='1';
+      lens[i]=p.getTotalLength();
+      nibs[i].setAttribute('r',Math.max(1.8,band*0.17).toFixed(1));
     });
     update();
   }
@@ -805,8 +810,17 @@
     // keep the drawing tip ~75% down the viewport (top of the bottom quarter),
     // so there's always empty space below it that the vine visibly grows into.
     const frac=total?Math.max(0,Math.min(1,(st+vh*0.75-start)/total)):0;
-    const off=reduce?0:(1-frac);
-    for(const p of paths) p.style.strokeDashoffset=off;
+    for(let i=0;i<paths.length;i++){
+      paths[i].style.strokeDashoffset=reduce?0:(1-frac);
+      const nib=nibs[i];
+      if(reduce||frac<=0.003||frac>=0.997){nib.style.opacity=0;}
+      else{
+        const pt=paths[i].getPointAtLength(frac*lens[i]);
+        nib.setAttribute('cx',pt.x.toFixed(1));
+        nib.setAttribute('cy',pt.y.toFixed(1));
+        nib.style.opacity=1;
+      }
+    }
   }
 
   let ticking=false;
