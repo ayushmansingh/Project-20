@@ -1,8 +1,17 @@
 import { getStore } from '@netlify/blobs';
 import { getAccessToken, json } from './lib/google.mjs';
 
+const SITE_HOST = new URL(process.env.URL || 'https://dhwaniwedsayushman.netlify.app').hostname;
+
 export default async (req) => {
   if (req.method !== 'POST') return json(405, { error: 'method' });
+
+  // Only accept requests originating from the wedding site itself
+  const origin = req.headers.get('origin') || '';
+  const referer = req.headers.get('referer') || '';
+  const fromSite = origin.includes(SITE_HOST) || referer.includes(SITE_HOST);
+  const fromLocalDev = origin.includes('localhost') || origin.includes('127.0.0.1');
+  if (!fromSite && !fromLocalDev) return json(403, { error: 'forbidden' });
 
   const store = getStore('google');
   const [refreshTk, albumId] = await Promise.all([

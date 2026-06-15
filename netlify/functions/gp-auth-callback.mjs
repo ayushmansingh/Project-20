@@ -54,7 +54,7 @@ export default async (req) => {
     `<html><body style="font-family:sans-serif;text-align:center;padding:64px 24px;background:#F6E9D2">
     <h2 style="color:#841B18;font-size:2rem">✅ Google Photos connected!</h2>
     <p style="margin:12px 0 6px;color:#4A2418">Album: <b>Dhwani &amp; Ayushman — Wedding 2026</b></p>
-    <p style="color:#6E7A3C;font-size:14px">Album ID: ${albumId || '(error creating album)'}</p>
+    <p style="color:#6E7A3C;font-size:14px">${albumId ? 'Album ready.' : '⚠️ Album creation failed — check function logs.'}</p>
     <p style="margin-top:28px"><a href="/" style="color:#841B18;font-size:1.1rem">← Back to the site</a></p>
     </body></html>`,
     { status: 200, headers: { 'content-type': 'text/html' } }
