@@ -30,7 +30,6 @@ export default async (req) => {
   try {
     const token = await getAccessToken(refreshTk);
 
-    // Step 1: upload raw bytes → get upload token
     const ur = await fetch('https://photoslibrary.googleapis.com/v1/uploads', {
       method: 'POST',
       headers: {
@@ -45,7 +44,6 @@ export default async (req) => {
     if (!ur.ok) return json(502, { error: 'upload_bytes_failed', status: ur.status });
     const uploadToken = await ur.text();
 
-    // Step 2: create media item in the wedding album
     const mr = await fetch('https://photoslibrary.googleapis.com/v1/mediaItems:batchCreate', {
       method: 'POST',
       headers: {
