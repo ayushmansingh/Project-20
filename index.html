@@ -256,6 +256,13 @@
   .pl-admin .arow button:hover{background:var(--gold);color:var(--red-deep)}
   @media(max-width:540px){.pl-admin .arow{flex-direction:column}.pl-admin .arow button{padding:11px}}
 
+  /* ---------- scroll-drawn kolam spine ---------- */
+  .kolam{position:absolute;top:0;left:0;width:100%;pointer-events:none;z-index:6;overflow:visible}
+  .kolam__v{position:absolute;top:0;overflow:visible}
+  .kolam__v path{fill:none;stroke:var(--gold);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;
+    opacity:.6;filter:drop-shadow(0 0 2px rgba(201,162,78,.3))}
+  @media(max-width:600px){.kolam__v path{stroke-width:1.1;opacity:.5}}
+
   @keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
   @keyframes cue{0%,100%{transform:scaleY(.3);transform-origin:top;opacity:.4}50%{transform:scaleY(1);opacity:1}}
 
@@ -310,6 +317,12 @@
       </button>
     </div>
   </nav>
+
+  <!-- scroll-drawn kolam spine -->
+  <div class="kolam" id="kolam" aria-hidden="true">
+    <svg class="kolam__v" data-side="l"><path></path></svg>
+    <svg class="kolam__v" data-side="r"><path></path></svg>
+  </div>
 
   <!-- ===================== HERO ===================== -->
   <section class="hero" id="top">
@@ -728,6 +741,79 @@
       btn.disabled=false;
     }
   });
+})();
+
+/* ---------- scroll-drawn kolam spine ---------- */
+(function(){
+  const wrap=document.getElementById('kolam'); if(!wrap) return;
+  const svgs=[].slice.call(wrap.querySelectorAll('.kolam__v'));
+  const paths=svgs.map(s=>s.querySelector('path'));
+  const hero=document.getElementById('top');
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  let start=0,total=0;
+
+  // a delicate serpentine bel (vine) with small leaf buds at each turn
+  function vinePath(band,amp,height,startDir){
+    const cx=band/2, seg=150;
+    const n=Math.max(2,Math.round(height/seg)), dy=height/n;
+    let d='M '+cx.toFixed(1)+' 0', dir=startDir, px=cx, py=0;
+    for(let i=1;i<=n;i++){
+      const ny=i*dy, nx=cx+dir*amp;
+      d+=' C '+px.toFixed(1)+' '+(py+dy*0.45).toFixed(1)+', '
+         +nx.toFixed(1)+' '+(ny-dy*0.45).toFixed(1)+', '
+         +nx.toFixed(1)+' '+ny.toFixed(1);
+      // tiny leaf bud branching off the apex of every turn
+      const lr=amp*0.5;
+      if(lr>1.2){
+        const bx=nx+dir*lr*0.9, by=ny-lr*0.5;
+        d+=' M '+nx.toFixed(1)+' '+ny.toFixed(1)
+          +' Q '+bx.toFixed(1)+' '+(ny-lr*1.5).toFixed(1)+', '+bx.toFixed(1)+' '+by.toFixed(1)
+          +' Q '+(nx+dir*lr*0.2).toFixed(1)+' '+(ny-lr*0.2).toFixed(1)+', '+nx.toFixed(1)+' '+ny.toFixed(1)
+          +' M '+nx.toFixed(1)+' '+ny.toFixed(1);
+      }
+      px=nx;py=ny;dir*=-1;
+    }
+    return d;
+  }
+
+  function build(){
+    const vw=document.documentElement.clientWidth;
+    const docH=document.documentElement.scrollHeight;
+    start=Math.round(hero.offsetHeight*0.9);
+    total=Math.max(0,docH-start);
+    const gutter=(vw-Math.min(1080,vw*0.9))/2;
+    if(gutter<12||total<240){wrap.style.display='none';return;}
+    wrap.style.display='';
+    const band=Math.min(46,gutter*0.72), amp=band*0.34;
+    const cx=[gutter/2, vw-gutter/2];
+    svgs.forEach(function(svg,i){
+      svg.setAttribute('viewBox','0 0 '+band+' '+total);
+      svg.setAttribute('width',band); svg.setAttribute('height',total);
+      svg.setAttribute('preserveAspectRatio','none');
+      svg.style.left=(cx[i]-band/2)+'px';
+      svg.style.top=start+'px';
+      const p=paths[i];
+      p.setAttribute('d',vinePath(band,amp,total,i===0?-1:1));
+      p.setAttribute('pathLength','1');
+      p.style.strokeDasharray='1';
+    });
+    update();
+  }
+
+  function update(){
+    const vh=window.innerHeight, st=window.scrollY;
+    const frac=total?Math.max(0,Math.min(1,(st+vh*0.9-start)/total)):0;
+    const off=reduce?0:(1-frac);
+    for(const p of paths) p.style.strokeDashoffset=off;
+  }
+
+  let ticking=false;
+  addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(function(){update();ticking=false;});}},{passive:true});
+  let rt; function rebuild(){clearTimeout(rt);rt=setTimeout(build,200);}
+  addEventListener('resize',rebuild);
+  if('ResizeObserver' in window){new ResizeObserver(rebuild).observe(document.body);}
+  addEventListener('load',build);
+  build();
 })();
 </script>
 </body>
