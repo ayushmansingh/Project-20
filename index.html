@@ -785,8 +785,12 @@
 
   function build(){
     const vw=document.documentElement.clientWidth;
-    const docH=document.documentElement.scrollHeight;
     start=Math.round(hero.offsetHeight*0.9);
+    // measure to the footer's bottom, NOT scrollHeight — the absolutely
+    // positioned vine would otherwise inflate scrollHeight on each rebuild,
+    // growing the page and leaving empty space below the footer.
+    const footer=document.querySelector('footer');
+    const docH=footer?Math.round(footer.getBoundingClientRect().bottom+window.scrollY):document.documentElement.scrollHeight;
     total=Math.max(0,docH-start);
     const gutter=(vw-Math.min(1080,vw*0.9))/2;
     if(gutter<12||total<240){wrap.style.display='none';return;}
@@ -810,12 +814,15 @@
     render(targetFrac());
   }
 
-  // the drawing frontier sits ~55% down the viewport: the vine is drawn ONLY
-  // up to here, the glowing nib marks the tip, and everything below is blank —
-  // so scrolling down visibly extends the line instead of showing a full border.
+  // Tie the draw to overall scroll progress through the page, so the glowing
+  // nib TRAVELS down the screen as you scroll (near the top when you enter the
+  // content, near the bottom at the end). The line is drawn only down to the
+  // nib; everything below it stays blank — it's a moving tip, not a border.
   function targetFrac(){
-    const vh=window.innerHeight, st=window.scrollY;
-    return total?Math.max(0,Math.min(1,(st+vh*0.55-start)/total)):0;
+    const st=window.scrollY;
+    const maxScroll=(start+total)-window.innerHeight; // content-anchored, not scrollHeight
+    const denom=maxScroll-start;
+    return denom>0?Math.max(0,Math.min(1,(st-start)/denom)):0;
   }
 
   // draw the stroke up to `frac` and pin the nib exactly at that tip — the two
@@ -834,11 +841,7 @@
     }
   }
 
-  let ticking=false;
-  function onScroll(){
-    if(ticking) return; ticking=true;
-    requestAnimationFrame(function(){ render(reduce?1:targetFrac()); ticking=false; });
-  }
+  function onScroll(){ render(reduce?1:targetFrac()); }
   addEventListener('scroll',onScroll,{passive:true});
   let rt; function rebuild(){clearTimeout(rt);rt=setTimeout(build,200);}
   addEventListener('resize',rebuild);
