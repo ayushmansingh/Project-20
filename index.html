@@ -87,6 +87,7 @@
   .place{font-size:clamp(15px,1.5vw,22px);letter-spacing:.34em;text-transform:uppercase;color:var(--tx-mut);
     margin-top:1.1em;text-shadow:0 1px 12px rgba(40,8,6,.8)}
   .place b{color:#FBF3E4;font-weight:600}
+  .place-date{display:block;margin-top:.6em;font-size:.82em;letter-spacing:.3em}
   .scrollcue{position:absolute;left:50%;bottom:clamp(64px,8vh,90px);transform:translateX(-50%);z-index:3;
     display:flex;flex-direction:column;align-items:center;gap:7px;color:var(--tx-mut);font-size:12px;letter-spacing:.32em;text-transform:uppercase}
   .scrollcue i{width:1px;height:32px;background:var(--gold);animation:cue 1.9s 1.9s ease-in-out infinite}
@@ -349,7 +350,7 @@
       <div class="content">
         <h1 class="names">Dhwani &amp; Ayushman</h1>
         <div class="rulewax" aria-hidden="true"><span></span><i>❖</i><span></span></div>
-        <div class="place"><b>Gwalior</b> &nbsp;·&nbsp; 19&ndash;20 November 2026</div>
+        <div class="place"><b>Gwalior</b><span class="place-date">19&ndash;20 November 2026</span></div>
       </div>
     </div>
     <canvas class="fx fx--front" id="fxFront" aria-hidden="true"></canvas>
