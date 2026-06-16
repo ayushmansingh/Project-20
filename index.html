@@ -759,7 +759,8 @@
   const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
   let start=0,total=0;
 
-  // a delicate serpentine bel (vine) with small leaf buds at each turn
+  // a delicate serpentine bel (vine) — ONE continuous line (no moveto breaks),
+  // so stroke-dash reveal clips it cleanly at the frontier.
   function vinePath(band,amp,height,startDir){
     const cx=band/2, seg=150;
     const n=Math.max(2,Math.round(height/seg)), dy=height/n;
@@ -769,15 +770,6 @@
       d+=' C '+px.toFixed(1)+' '+(py+dy*0.45).toFixed(1)+', '
          +nx.toFixed(1)+' '+(ny-dy*0.45).toFixed(1)+', '
          +nx.toFixed(1)+' '+ny.toFixed(1);
-      // tiny leaf bud branching off the apex of every turn
-      const lr=amp*0.5;
-      if(lr>1.2){
-        const bx=nx+dir*lr*0.9, by=ny-lr*0.5;
-        d+=' M '+nx.toFixed(1)+' '+ny.toFixed(1)
-          +' Q '+bx.toFixed(1)+' '+(ny-lr*1.5).toFixed(1)+', '+bx.toFixed(1)+' '+by.toFixed(1)
-          +' Q '+(nx+dir*lr*0.2).toFixed(1)+' '+(ny-lr*0.2).toFixed(1)+', '+nx.toFixed(1)+' '+ny.toFixed(1)
-          +' M '+nx.toFixed(1)+' '+ny.toFixed(1);
-      }
       px=nx;py=ny;dir*=-1;
     }
     return d;
