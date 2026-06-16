@@ -573,13 +573,13 @@
   const pointer={x:-9999,y:-9999,active:false,px:-9999,py:-9999};
   function Petal(f){this.f=f;this.reset(true);}
   Petal.prototype.reset=function(init){this.z=this.f?0.62+Math.random()*0.38:0.18+Math.random()*0.4;this.x=Math.random()*W;
-    this.y=init?Math.random()*H:-60;this.s=(this.f?0.5:0.3)+this.z*0.8;this.spr=SPR[(Math.random()*SPR.length)|0];
+    this.y=init?Math.random()*H:-60;this.s=this.f?(0.42+this.z*0.45):(0.3+this.z*0.8);this.spr=SPR[(Math.random()*SPR.length)|0];
     this.rot=Math.random()*6.28;this.vr=(Math.random()-0.5)*0.03;this.vy=(0.22+Math.random()*0.36)*(0.5+this.z);
     this.vx=(Math.random()-0.5)*0.3;this.sw=0.5+Math.random()*1.1;this.ph=Math.random()*6.28;};
   Petal.prototype.step=function(wind){this.ph+=0.01+this.z*0.012;this.x+=this.vx+Math.sin(this.ph)*this.sw*0.5+wind*(0.4+this.z);
     this.y+=this.vy;this.rot+=this.vr+Math.sin(this.ph)*0.006;
     if(pointer.active){const dx=this.x-pointer.x,dy=this.y-pointer.y,d2=dx*dx+dy*dy,R=130*this.z+70;
-      if(d2<R*R){const d=Math.sqrt(d2)||1,f=(1-d/R)*3.2*this.z;this.x+=(dx/d)*f;this.y+=(dy/d)*f*0.7;}}
+      if(d2<R*R){const d=Math.sqrt(d2)||1,f=(1-d/R)*1.5*this.z;this.x+=(dx/d)*f;this.y+=(dy/d)*f*0.7;}}
     if(this.y>H+50||this.x<-80||this.x>W+80)this.reset(false);};
   Petal.prototype.draw=function(c){const sz=56*this.s;c.save();c.globalAlpha=this.f?0.92:0.45+this.z*0.4;
     c.translate(this.x,this.y);c.rotate(this.rot);c.drawImage(this.spr,-sz/2,-sz/2,sz,sz);c.restore();};
@@ -592,8 +592,13 @@
     bp=Array.from({length:Math.min(70,Math.round(W*H/30000))},()=>new Petal(false));
     fp=Array.from({length:Math.min(42,Math.round(W*H/52000))},()=>new Petal(true));}
   function pos(e){const r=hero.getBoundingClientRect(),t=e.touches?e.touches[0]:e;pointer.px=pointer.x;pointer.py=pointer.y;pointer.x=t.clientX-r.left;pointer.y=t.clientY-r.top;pointer.active=true;}
-  hero.addEventListener('mousemove',pos);hero.addEventListener('touchmove',function(e){pos(e)},{passive:true});
-  hero.addEventListener('mouseleave',function(){pointer.active=false;pointer.x=pointer.y=-9999});
+  function deactivate(){pointer.active=false;pointer.x=pointer.y=-9999;}
+  hero.addEventListener('mousemove',pos);
+  hero.addEventListener('mouseleave',deactivate);
+  hero.addEventListener('touchstart',pos,{passive:true});
+  hero.addEventListener('touchmove',pos,{passive:true});
+  hero.addEventListener('touchend',deactivate);
+  hero.addEventListener('touchcancel',deactivate);
   let t0=0;
   function loop(t){if(!t0)t0=t;t0=t;const wind=Math.sin(t*0.0004)*0.5+(pointer.active?(pointer.x-pointer.px)*0.004:0);
     bctx.clearRect(0,0,W,H);fctx.clearRect(0,0,W,H);
