@@ -604,7 +604,11 @@
     [back,front].forEach(cv=>{cv.width=W*DPR;cv.height=H*DPR;});bctx.setTransform(DPR,0,0,DPR,0,0);fctx.setTransform(DPR,0,0,DPR,0,0);
     bp=Array.from({length:Math.min(70,Math.round(W*H/30000))},()=>new Petal(false));
     fp=Array.from({length:Math.min(42,Math.round(W*H/52000))},()=>new Petal(true));computeCream();}
-  function pos(e){const t=e.touches?e.touches[0]:e;if(!t)return;pointer.px=pointer.x;pointer.py=pointer.y;pointer.x=t.clientX;pointer.y=t.clientY;pointer.active=true;}
+  function pos(e){const t=e.touches?e.touches[0]:e;if(!t)return;const x=t.clientX,y=t.clientY;
+    // on a fresh press, seed prev=current so the first frame has ZERO movement
+    // (otherwise px is the parked -9999 and creates a huge one-frame wind gust)
+    if(pointer.active){pointer.px=pointer.x;pointer.py=pointer.y;}else{pointer.px=x;pointer.py=y;}
+    pointer.x=x;pointer.y=y;pointer.active=true;}
   function deactivate(){pointer.active=false;pointer.x=pointer.y=-9999;}
   let idle;function onMouse(e){pos(e);clearTimeout(idle);idle=setTimeout(deactivate,220);}
   window.addEventListener('mousemove',onMouse);
@@ -616,7 +620,8 @@
   window.addEventListener('scroll',function(){if(!creamRanges.length)computeCream();},{passive:true});
   let t0=0;
   function loop(t){if(!t0)t0=t;t0=t;creamMix+=(targetCream()-creamMix)*0.05;
-    const wind=Math.sin(t*0.0004)*0.5+(pointer.active?(pointer.x-pointer.px)*0.004:0);
+    const pw=pointer.active?Math.max(-1.5,Math.min(1.5,(pointer.x-pointer.px)*0.004)):0;
+    const wind=Math.sin(t*0.0004)*0.5+pw;
     bctx.clearRect(0,0,W,H);fctx.clearRect(0,0,W,H);
     for(const p of bp){p.step(wind);p.draw(bctx);}
     for(const p of fp){p.step(wind);p.draw(fctx);}diya(fctx);requestAnimationFrame(loop);}
