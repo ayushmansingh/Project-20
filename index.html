@@ -588,7 +588,7 @@
     if(pointer.active){const dx=this.x-pointer.x,dy=this.y-pointer.y,d2=dx*dx+dy*dy,R=130*this.z+70;
       if(d2<R*R){const d=Math.sqrt(d2)||1,f=(1-d/R)*1.5*this.z;this.x+=(dx/d)*f;this.y+=(dy/d)*f*0.7;}}
     if(this.y>H+60||this.x<-80||this.x>W+80)this.reset(false);};
-  Petal.prototype.draw=function(c){const sz=56*this.s,a=this.f?0.8:0.42+this.z*0.38;
+  Petal.prototype.draw=function(c){const sz=40*this.s,a=this.f?0.8:0.42+this.z*0.38;
     c.save();c.translate(this.x,this.y);c.rotate(this.rot);
     if(creamMix<0.99){c.globalAlpha=a*(1-creamMix);c.drawImage(SPRW[this.pi],-sz/2,-sz/2,sz,sz);}
     if(creamMix>0.01){c.globalAlpha=a*creamMix;c.drawImage(SPRC[this.pi],-sz/2,-sz/2,sz,sz);}
