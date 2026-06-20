@@ -570,10 +570,10 @@
   // warm petals over the deep-red sections; pomegranate-tinged (#841B18) over cream sections
   const PAL_WARM=[['#F0D8C0','#D98C84'],['#E7C07A','#C68A33'],['#E2A99B','#C75B58'],['#EAB6A0','#B0413A']];
   const PAL_CREAM=[['#C9806F','#841B18'],['#C9A24E','#9A7A30'],['#C75B58','#841B18'],['#A85A3E','#841B18']];
+  // solid confetti circle with the same top→bottom colour gradient
   function petalSprite(s,t,b){const c=document.createElement('canvas');c.width=c.height=s;const x=c.getContext('2d');
-    const g=x.createLinearGradient(0,0,0,s);g.addColorStop(0,t);g.addColorStop(1,b);x.fillStyle=g;x.translate(s/2,s*0.12);
-    x.beginPath();x.moveTo(0,0);x.bezierCurveTo(s*0.42,s*0.18,s*0.40,s*0.74,0,s*0.88);x.bezierCurveTo(-s*0.40,s*0.74,-s*0.42,s*0.18,0,0);x.fill();
-    x.strokeStyle='rgba(120,30,20,.20)';x.lineWidth=Math.max(1,s*0.02);x.beginPath();x.moveTo(0,s*0.08);x.lineTo(0,s*0.74);x.stroke();return c;}
+    const g=x.createLinearGradient(0,0,0,s);g.addColorStop(0,t);g.addColorStop(1,b);x.fillStyle=g;
+    x.beginPath();x.arc(s/2,s/2,s*0.42,0,Math.PI*2);x.fill();return c;}
   const SPRW=PAL_WARM.map(p=>petalSprite(56,p[0],p[1]));
   const SPRC=PAL_CREAM.map(p=>petalSprite(56,p[0],p[1]));
   const pointer={x:-9999,y:-9999,active:false,px:-9999,py:-9999};
