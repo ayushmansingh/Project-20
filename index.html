@@ -611,11 +611,11 @@
     pointer.x=x;pointer.y=y;pointer.active=true;}
   function deactivate(){pointer.active=false;pointer.x=pointer.y=-9999;}
   let idle;function onMouse(e){pos(e);clearTimeout(idle);idle=setTimeout(deactivate,220);}
-  // Disturbance only on real mouse pointers (desktop hover). On touch screens the
-  // confetti just drift — taps, holds and scrolls never push them around.
-  if(window.matchMedia('(hover:hover) and (pointer:fine)').matches){
-    window.addEventListener('mousemove',onMouse);
-  }
+  // Any touch-capable device gets NO pointer disturbance — taps/holds/scrolls
+  // (incl. synthesized mouse events) never push the confetti; they just drift.
+  // Only true non-touch mouse devices keep the gentle hover.
+  const touchCapable=('ontouchstart' in window)||navigator.maxTouchPoints>0||(navigator.msMaxTouchPoints>0);
+  if(!touchCapable){ window.addEventListener('mousemove',onMouse); }
   let rt;window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(resize,150);});
   window.addEventListener('scroll',function(){scrolling=true;clearTimeout(scrollT);scrollT=setTimeout(function(){scrolling=false;},170);if(!creamRanges.length)computeCream();},{passive:true});
   let t0=0;
