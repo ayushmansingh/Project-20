@@ -577,7 +577,7 @@
   const SPRW=PAL_WARM.map(p=>petalSprite(56,p[0],p[1]));
   const SPRC=PAL_CREAM.map(p=>petalSprite(56,p[0],p[1]));
   const pointer={x:-9999,y:-9999,active:false,px:-9999,py:-9999};
-  let creamMix=0, creamRanges=[];
+  let creamMix=0, creamRanges=[], scrolling=false, scrollT=0;
   function Petal(f){this.f=f;this.reset(true);}
   Petal.prototype.reset=function(init){this.z=this.f?0.62+Math.random()*0.38:0.18+Math.random()*0.4;this.x=Math.random()*W;
     this.y=init?Math.random()*H:-60;this.s=this.f?(0.42+this.z*0.45):(0.3+this.z*0.8);this.pi=(Math.random()*PAL_WARM.length)|0;
@@ -585,7 +585,7 @@
     this.vx=(Math.random()-0.5)*0.3;this.sw=0.5+Math.random()*1.1;this.ph=Math.random()*6.28;};
   Petal.prototype.step=function(wind){this.ph+=0.01+this.z*0.012;this.x+=this.vx+Math.sin(this.ph)*this.sw*0.5+wind*(0.4+this.z);
     this.y+=this.vy;this.rot+=this.vr+Math.sin(this.ph)*0.006;
-    if(pointer.active){const dx=this.x-pointer.x,dy=this.y-pointer.y,d2=dx*dx+dy*dy,R=130*this.z+70;
+    if(pointer.active&&!scrolling){const dx=this.x-pointer.x,dy=this.y-pointer.y,d2=dx*dx+dy*dy,R=130*this.z+70;
       if(d2<R*R){const d=Math.sqrt(d2)||1,f=(1-d/R)*1.5*this.z;this.x+=(dx/d)*f;this.y+=(dy/d)*f*0.7;}}
     if(this.y>H+60||this.x<-80||this.x>W+80)this.reset(false);};
   Petal.prototype.draw=function(c){const sz=40*this.s,a=this.f?0.8:0.42+this.z*0.38;
@@ -594,7 +594,7 @@
     if(creamMix>0.01){c.globalAlpha=a*creamMix;c.drawImage(SPRC[this.pi],-sz/2,-sz/2,sz,sz);}
     c.restore();};
   let bp=[],fp=[];
-  function diya(c){if(!pointer.active)return;const r=120,g=c.createRadialGradient(pointer.x,pointer.y,0,pointer.x,pointer.y,r);
+  function diya(c){if(!pointer.active||scrolling)return;const r=120,g=c.createRadialGradient(pointer.x,pointer.y,0,pointer.x,pointer.y,r);
     g.addColorStop(0,'rgba(255,214,150,.4)');g.addColorStop(.4,'rgba(228,170,80,.16)');g.addColorStop(1,'rgba(228,170,80,0)');
     c.save();c.globalCompositeOperation='lighter';c.fillStyle=g;c.beginPath();c.arc(pointer.x,pointer.y,r,0,Math.PI*2);c.fill();c.restore();}
   function computeCream(){creamRanges=[];document.querySelectorAll('.section--cream').forEach(function(s){
@@ -617,10 +617,10 @@
   window.addEventListener('touchend',deactivate);
   window.addEventListener('touchcancel',deactivate);
   let rt;window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(resize,150);});
-  window.addEventListener('scroll',function(){if(!creamRanges.length)computeCream();},{passive:true});
+  window.addEventListener('scroll',function(){scrolling=true;clearTimeout(scrollT);scrollT=setTimeout(function(){scrolling=false;},170);if(!creamRanges.length)computeCream();},{passive:true});
   let t0=0;
   function loop(t){if(!t0)t0=t;t0=t;creamMix+=(targetCream()-creamMix)*0.05;
-    const pw=pointer.active?Math.max(-1.5,Math.min(1.5,(pointer.x-pointer.px)*0.004)):0;
+    const pw=(pointer.active&&!scrolling)?Math.max(-1.5,Math.min(1.5,(pointer.x-pointer.px)*0.004)):0;
     const wind=Math.sin(t*0.0004)*0.5+pw;
     bctx.clearRect(0,0,W,H);fctx.clearRect(0,0,W,H);
     for(const p of bp){p.step(wind);p.draw(bctx);}
