@@ -472,28 +472,6 @@
     </div>
   </section>
 
-  <!-- ===================== PLAYLIST ===================== -->
-  <section class="section section--red" id="playlist">
-    <img class="accent" src="assets/cluster.png" alt="" aria-hidden="true" style="top:-30px;right:-66px;width:220px;transform:scaleX(-1);opacity:.8">
-    <div class="wrap center">
-      <p class="eyebrow reveal">Set the mood</p>
-      <h2 class="display reveal">The playlist</h2>
-      <p class="lead reveal" style="max-width:48ch;margin:0 auto">Request the songs you want to hear — search, tap, and we'll add our favourites to the playlist below.</p>
-    </div>
-    <div class="wrap">
-      <div class="pl-search reveal">
-        <input id="plq" type="search" placeholder="Search a song or artist…" autocomplete="off" aria-label="Search songs">
-      </div>
-      <div id="plResults" class="pl-results"></div>
-      <div id="plNote" class="pl-note"></div>
-      <div class="pl-embed reveal">
-        <iframe title="Our wedding playlist" style="border-radius:14px;border:0" src="https://open.spotify.com/embed/playlist/0GLjDFwQz7g4RjZZhntzcZ?utm_source=generator&amp;theme=0" width="100%" height="420" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-      </div>
-      <button id="plAdminToggle" class="pl-admin-link" type="button">Curate · admin</button>
-      <div id="plAdmin" class="pl-admin" hidden></div>
-    </div>
-  </section>
-
   <!-- ===================== RSVP ===================== -->
   <section class="section section--deep" id="rsvp">
     <img class="accent" src="assets/cluster.png" alt="" aria-hidden="true" style="bottom:-30px;left:-70px;width:220px;opacity:.8">
@@ -551,6 +529,28 @@
         <div class="date">19–20 November 2026 · Gwalior</div>
         <a href="#rsvp" class="rsvp">RSVP</a>
       </div>
+    </div>
+  </section>
+
+  <!-- ===================== PLAYLIST ===================== -->
+  <section class="section section--red" id="playlist">
+    <img class="accent" src="assets/cluster.png" alt="" aria-hidden="true" style="top:-30px;right:-66px;width:220px;transform:scaleX(-1);opacity:.8">
+    <div class="wrap center">
+      <p class="eyebrow reveal">Set the mood</p>
+      <h2 class="display reveal">The playlist</h2>
+      <p class="lead reveal" style="max-width:48ch;margin:0 auto">Request the songs you want to hear — search, tap, and we'll add our favourites to the playlist below.</p>
+    </div>
+    <div class="wrap">
+      <div class="pl-search reveal">
+        <input id="plq" type="search" placeholder="Search a song or artist…" autocomplete="off" aria-label="Search songs">
+      </div>
+      <div id="plResults" class="pl-results"></div>
+      <div id="plNote" class="pl-note"></div>
+      <div class="pl-embed reveal">
+        <iframe title="Our wedding playlist" style="border-radius:14px;border:0" src="https://open.spotify.com/embed/playlist/0GLjDFwQz7g4RjZZhntzcZ?utm_source=generator&amp;theme=0" width="100%" height="420" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      </div>
+      <button id="plAdminToggle" class="pl-admin-link" type="button">Curate · admin</button>
+      <div id="plAdmin" class="pl-admin" hidden></div>
     </div>
   </section>
 
@@ -701,7 +701,8 @@
     btn.disabled=true; btn.textContent='…';
     try{
       const r=await fetch('/.netlify/functions/request',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)});
-      if(r.ok){btn.textContent='Requested ✓';btn.classList.add('added');note.textContent='';}
+      if(r.ok){btn.textContent='Requested ✓';btn.classList.add('added');note.textContent='🎵 Added to our list — thank you!';
+        setTimeout(()=>{results.innerHTML='';q.value='';last='';},650);}
       else{btn.disabled=false;btn.textContent='Request';note.textContent='That didn’t go through — try again.';}
     }catch(e){btn.disabled=false;btn.textContent='Request';note.textContent=offline;}
   });
