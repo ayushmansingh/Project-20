@@ -62,7 +62,8 @@
   .bouquet{position:absolute;bottom:0;z-index:1;pointer-events:none;width:auto;user-select:none}
   .bouquet--l{left:clamp(-26px,-1.5vw,0px);height:clamp(300px,60vh,660px)}
   .bouquet--r{right:clamp(-26px,-1.5vw,0px);height:clamp(175px,34vh,380px);transform:scaleX(-1);opacity:.9}
-  .fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+  .fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;
+    transform:translateZ(0);will-change:transform;backface-visibility:hidden}
   .fx--back{z-index:2}
   .fx--front{z-index:9}
   .rule{position:absolute;left:0;right:0;z-index:3;height:14px;
@@ -606,7 +607,7 @@
     // Only (re)spawn petals when the WIDTH changes (orientation / real resize).
     // Mobile URL-bar show/hide only changes height — respawning there would
     // randomize every petal mid-scroll (the "flying away" bug).
-    if(W!==lastW){lastW=W;
+    if(Math.abs(W-lastW)>50){lastW=W;
       bp=Array.from({length:Math.min(70,Math.round(W*H/30000))},()=>new Petal(false));
       fp=Array.from({length:Math.min(42,Math.round(W*H/52000))},()=>new Petal(true));}
     computeCream();}
