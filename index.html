@@ -644,13 +644,14 @@
     x.beginPath();x.arc(s/2,s/2,s*0.42,0,Math.PI*2);x.fill();return c;}
   const SPRW=PAL_WARM.map(p=>petalSprite(56,p[0],p[1]));
   const SPRC=PAL_CREAM.map(p=>petalSprite(56,p[0],p[1]));
-  // firefly for night scenes — a soft warm glow dot
-  function fireflySprite(s){const c=document.createElement('canvas');c.width=c.height=s;const x=c.getContext('2d');
+  // fireflies for night scenes — warm gold over the red fields,
+  // pomegranate-red over the cream sections (crossfaded by creamMix)
+  function fireflySprite(s,stops){const c=document.createElement('canvas');c.width=c.height=s;const x=c.getContext('2d');
     const g=x.createRadialGradient(s/2,s/2,0,s/2,s/2,s/2);
-    g.addColorStop(0,'rgba(255,238,196,1)');g.addColorStop(0.22,'rgba(255,214,140,.9)');
-    g.addColorStop(0.55,'rgba(228,168,80,.28)');g.addColorStop(1,'rgba(228,168,80,0)');
+    stops.forEach(function(st){g.addColorStop(st[0],st[1]);});
     x.fillStyle=g;x.fillRect(0,0,s,s);return c;}
-  const FSPR=fireflySprite(64);
+  const FSPR=fireflySprite(64,[[0,'rgba(255,238,196,1)'],[0.22,'rgba(255,214,140,.9)'],[0.55,'rgba(228,168,80,.28)'],[1,'rgba(228,168,80,0)']]);
+  const FSPR_R=fireflySprite(64,[[0,'rgba(214,110,95,1)'],[0.22,'rgba(180,65,58,.9)'],[0.55,'rgba(132,27,24,.3)'],[1,'rgba(132,27,24,0)']]);
   const pointer={x:-9999,y:-9999,active:false,px:-9999,py:-9999};
   let creamMix=0, nightMix=0, creamRanges=[], scrolling=false, scrollT=0;
   function Petal(f){this.f=f;this.reset(true);}
@@ -672,8 +673,10 @@
       if(creamMix<0.99){c.globalAlpha=a*(1-creamMix)*dayA;c.drawImage(SPRW[this.pi],-sz/2,-sz/2,sz,sz);}
       if(creamMix>0.01){c.globalAlpha=a*creamMix*dayA;c.drawImage(SPRC[this.pi],-sz/2,-sz/2,sz,sz);}
     }
-    if(nightMix>0.01){const tw=0.55+0.45*Math.sin(this.ph*2.3+this.pi*1.7),fz=sz*0.62;
-      c.globalAlpha=Math.min(1,a*1.15)*nightMix*tw;c.drawImage(FSPR,-fz/2,-fz/2,fz,fz);}
+    if(nightMix>0.01){const tw=0.55+0.45*Math.sin(this.ph*2.3+this.pi*1.7),fz=sz*0.62,
+      na=Math.min(1,a*1.15)*nightMix*tw;
+      if(creamMix<0.99){c.globalAlpha=na*(1-creamMix);c.drawImage(FSPR,-fz/2,-fz/2,fz,fz);}
+      if(creamMix>0.01){c.globalAlpha=na*creamMix;c.drawImage(FSPR_R,-fz/2,-fz/2,fz,fz);}}
     c.restore();};
   let bp=[],fp=[];
   function diya(c){if(!pointer.active||scrolling)return;const r=120,g=c.createRadialGradient(pointer.x,pointer.y,0,pointer.x,pointer.y,r);
