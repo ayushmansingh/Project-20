@@ -4,7 +4,7 @@
     {
       "name": "wedding",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "8770"],
+      "runtimeArgs": ["-c", "import os;os.chdir('/Users/ayushmansingh/Desktop/Projects-Base/Wedding');from http.server import ThreadingHTTPServer,SimpleHTTPRequestHandler;ThreadingHTTPServer(('127.0.0.1',8770),SimpleHTTPRequestHandler).serve_forever()"],
       "port": 8770
     }
   ]
