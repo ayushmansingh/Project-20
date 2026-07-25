@@ -110,12 +110,8 @@
     margin-top:1.1em;text-shadow:0 1px 12px rgba(40,8,6,.8)}
   .place b{color:#FBF3E4;font-weight:600}
   .place-date{display:block;margin-top:.6em;font-size:.82em;letter-spacing:.3em}
-  .scrollcue{position:absolute;left:50%;bottom:clamp(64px,8vh,90px);transform:translateX(-50%);z-index:3;
-    display:flex;flex-direction:column;align-items:center;gap:7px;color:var(--tx-mut);font-size:12px;letter-spacing:.32em;text-transform:uppercase}
-  .scrollcue i{width:1px;height:32px;background:var(--gold);animation:cue 1.9s 1.9s ease-in-out infinite}
   .hero .names,.hero .rulewax,.hero .place{opacity:0;animation:rise 1.3s forwards}
   .hero .names{animation-delay:.35s}.hero .rulewax{animation-delay:.85s}.hero .place{animation-delay:1s}
-  .scrollcue{opacity:0;animation:rise 1.2s 1.5s forwards}
 
   /* ---------- shared section system ---------- */
   .section{position:relative;overflow:hidden;padding:clamp(72px,10vw,150px) 0}
@@ -311,7 +307,6 @@
   .bouquet,.accent{filter:brightness(var(--scene-dim,1));transition:filter 2s linear}
 
   @keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-  @keyframes cue{0%,100%{transform:scaleY(.3);transform-origin:top;opacity:.4}50%{transform:scaleY(1);opacity:1}}
 
   @media(max-width:760px){
     .chapter{grid-template-columns:1fr;gap:18px}
@@ -337,11 +332,11 @@
     .names{font-size:clamp(3.2rem,14.5vw,5rem)}
     .bouquet--l{height:clamp(200px,32vh,300px);left:50%;transform:translateX(-50%)}
     .bouquet--r{display:none}
-    .rule--bot,.scrollcue{display:none}
+    .rule--bot{display:none}
   }
   @media(prefers-reduced-motion:reduce){
     *{animation-duration:.01ms!important;animation-delay:0ms!important}
-    .reveal{opacity:1;transform:none;transition:none}.scrollcue i{animation:none}
+    .reveal{opacity:1;transform:none;transition:none}
     html{scroll-behavior:auto}
   }
 </style>
@@ -398,7 +393,6 @@
       </div>
     </div>
     <div class="rule rule--bot"></div>
-    <div class="scrollcue"><i></i></div>
   </section>
 
   <!-- ===================== OUR STORY ===================== -->
