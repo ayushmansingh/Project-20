@@ -74,6 +74,11 @@
 
   .mono{display:inline-flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond";font-weight:600;
     letter-spacing:1px;color:var(--ivory,#FBF3E4);border:1.5px solid var(--gold);border-radius:50%}
+  /* the A/D monogram logo, masked so it recolors to the badge's currentColor */
+  .mono__i{display:block;width:62%;height:62%;background:currentColor;
+    -webkit-mask:url(assets/monogram.png) center/contain no-repeat;mask:url(assets/monogram.png) center/contain no-repeat}
+  .seal__i{display:block;width:46px;height:46px;margin:0 auto 1px;background:currentColor;
+    -webkit-mask:url(assets/monogram.png) center/contain no-repeat;mask:url(assets/monogram.png) center/contain no-repeat}
   .rsvp{border:1.5px solid var(--gold);color:#FBF3E4;border-radius:999px;letter-spacing:.12em;text-transform:uppercase;
     text-decoration:none;display:inline-block;transition:background .2s,color .2s;white-space:nowrap}
   .rsvp:hover{background:var(--gold);color:var(--red-deep)}
@@ -220,9 +225,9 @@
     border-radius:999px;padding:8px 17px;cursor:pointer;transition:all .18s}
   .chip:hover{border-color:var(--red)}
   .chip.on{background:var(--red);color:#FBF3E4;border-color:var(--red)}
-  .seal{display:block;margin:6px auto 0;width:96px;height:96px;border-radius:50%;border:none;cursor:pointer;
+  .seal{display:flex;flex-direction:column;align-items:center;justify-content:center;margin:6px auto 0;width:96px;height:96px;border-radius:50%;border:none;cursor:pointer;
     background:radial-gradient(circle at 38% 32%,var(--red-soft),var(--red) 60%,var(--red-deep));
-    color:#F4D9B0;font-family:"Great Vibes",cursive;font-size:30px;box-shadow:0 10px 22px -8px rgba(60,8,8,.7),inset 0 0 0 3px rgba(201,162,78,.5);
+    color:#F4D9B0;box-shadow:0 10px 22px -8px rgba(60,8,8,.7),inset 0 0 0 3px rgba(201,162,78,.5);
     transition:transform .15s}
   .seal:hover{transform:scale(1.05)}.seal:active{transform:scale(.97)}
   .seal small{display:block;font-family:"Cormorant Garamond";font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#E7C07A;margin-top:-4px}
@@ -345,7 +350,7 @@
 
   <!-- sticky bar -->
   <nav class="topbar" id="topbar">
-    <a href="#top" class="mono">D&amp;A</a>
+    <a href="#top" class="mono" aria-label="Dhwani &amp; Ayushman — top"><i class="mono__i"></i></a>
     <div class="navright">
       <div class="links" id="navLinks">
         <a href="#story">Our story</a>
@@ -376,7 +381,7 @@
     <img class="bouquet bouquet--r" src="assets/cluster.png" alt="" aria-hidden="true">
     <div class="rule rule--top"></div>
     <nav class="h-nav">
-      <span class="mono">D&amp;A</span>
+      <span class="mono" aria-hidden="true"><i class="mono__i"></i></span>
       <div class="h-nav__links">
         <a href="#story">Our story</a>
         <a href="#events">Events</a>
@@ -552,7 +557,7 @@
           <div class="field"><label for="adate">Arrival date</label><input id="adate" name="adate" type="date" min="2026-11-16" max="2026-11-23"></div>
           <div class="field"><label for="atime">Arrival time</label><input id="atime" name="atime" type="time"></div>
         </div>
-        <button type="submit" class="seal">D&amp;A<small>seal &amp; send</small></button>
+        <button type="submit" class="seal"><i class="seal__i"></i><small>seal &amp; send</small></button>
         <p class="deadline">Kindly respond by 30 September 2026.</p>
       </form>
       <div class="rsvp-success">
@@ -587,7 +592,7 @@
       </div>
       <div class="closing reveal">
         <div class="big">We can't wait to celebrate with you.</div>
-        <span class="mono">D&amp;A</span>
+        <span class="mono" aria-hidden="true"><i class="mono__i"></i></span>
         <div class="date">19–20 November 2026 · Gwalior</div>
         <a href="#rsvp" class="rsvp">RSVP</a>
       </div>
