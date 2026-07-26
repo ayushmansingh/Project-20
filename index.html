@@ -295,6 +295,8 @@
     letter-spacing:.06em;color:var(--red);background:transparent;border:1.5px solid var(--red);border-radius:999px;
     padding:12px 30px;cursor:pointer;text-decoration:none;transition:all .2s}
   .album-btn:hover{background:var(--red);color:var(--cream-2)}
+  .album-hint{margin-top:clamp(14px,2vw,18px);font-size:15px;font-style:italic;color:var(--gold-deep)}
+  .album-hint b{font-style:normal;font-weight:600;color:var(--red)}
   .closing{text-align:center;margin-top:clamp(56px,8vw,96px)}
   .closing .big{font-family:"Great Vibes",cursive;font-size:clamp(2.6rem,7vw,5rem);color:var(--red);line-height:1.08;max-width:16ch;margin:0 auto}
   .closing .mono{width:54px;height:54px;font-size:18px;color:var(--red);border-color:var(--gold-deep);margin:26px auto 14px}
@@ -402,6 +404,7 @@
         <a href="#events">Events</a>
         <a href="#travel">Travel</a>
         <a href="#playlist">Playlist</a>
+        <a href="#album">Album</a>
       </div>
       <a href="#rsvp" class="rsvp">RSVP</a>
       <button class="navtoggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false">
@@ -432,6 +435,7 @@
         <a href="#events">Events</a>
         <a href="#travel">Travel</a>
         <a href="#playlist">Playlist</a>
+        <a href="#album">Album</a>
         <a href="#rsvp" class="rsvp">RSVP</a>
       </div>
     </nav>
@@ -560,6 +564,34 @@
     </div>
   </section>
 
+  <!-- ===================== RSVP ===================== -->
+  <section class="section section--deep" id="rsvp">
+    <img class="accent" src="assets/cluster.png" alt="" aria-hidden="true" style="bottom:-30px;left:-70px;width:220px;opacity:.8">
+    <img class="accent" src="assets/cluster.png" alt="" aria-hidden="true" style="bottom:-30px;right:-70px;width:220px;opacity:.8;transform:scaleX(-1)">
+    <div class="wrap center">
+      <p class="eyebrow reveal">Will you join us?</p>
+      <h2 class="display reveal">Kindly reply</h2>
+      <p class="lead reveal" style="max-width:46ch;margin:0 auto">Tell us you're coming and when you'll arrive — so we can plan your welcome in Gwalior.</p>
+    </div>
+    <div class="rsvp-card reveal" id="rsvpCard">
+      <form class="rsvp-form" id="rsvpForm" novalidate>
+        <div class="field"><label for="fullname">Full name(s)</label><input id="fullname" name="fullname" type="text" placeholder="Who's coming?" required></div>
+        <div class="field"><label for="guests">Number of guests</label>
+          <select id="guests" name="guests"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6+</option></select></div>
+        <div class="row2">
+          <div class="field"><label for="adate">Arrival date</label><input id="adate" name="adate" type="date" min="2026-11-16" max="2026-11-23"></div>
+          <div class="field"><label for="atime">Arrival time</label><input id="atime" name="atime" type="time"></div>
+        </div>
+        <button type="submit" class="seal"><i class="seal__i"></i><small>seal &amp; send</small></button>
+        <p class="deadline">Kindly respond by 30 September 2026.</p>
+      </form>
+      <div class="rsvp-success">
+        <div class="big">Thank you, <span id="rsvpName">friend</span>!</div>
+        <p>Your reply is in — we can't wait to welcome you to Gwalior.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- ===================== TRAVEL ===================== -->
   <section class="section section--cream" id="travel">
     <div class="wrap center">
@@ -654,44 +686,12 @@
     </div>
   </section>
 
-  <!-- ===================== RSVP ===================== -->
-  <section class="section section--deep" id="rsvp">
-    <img class="accent" src="assets/cluster.png" alt="" aria-hidden="true" style="bottom:-30px;left:-70px;width:220px;opacity:.8">
-    <img class="accent" src="assets/cluster.png" alt="" aria-hidden="true" style="bottom:-30px;right:-70px;width:220px;opacity:.8;transform:scaleX(-1)">
-    <div class="wrap center">
-      <p class="eyebrow reveal">Will you join us?</p>
-      <h2 class="display reveal">Kindly reply</h2>
-      <p class="lead reveal" style="max-width:46ch;margin:0 auto">Tell us you're coming and when you'll arrive — so we can plan your welcome in Gwalior.</p>
-    </div>
-    <div class="rsvp-card reveal" id="rsvpCard">
-      <form class="rsvp-form" id="rsvpForm" novalidate>
-        <div class="field"><label for="fullname">Full name(s)</label><input id="fullname" name="fullname" type="text" placeholder="Who's coming?" required></div>
-        <div class="field"><label for="guests">Number of guests</label>
-          <select id="guests" name="guests"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6+</option></select></div>
-        <div class="row2">
-          <div class="field"><label for="adate">Arrival date</label><input id="adate" name="adate" type="date" min="2026-11-16" max="2026-11-23"></div>
-          <div class="field"><label for="atime">Arrival time</label><input id="atime" name="atime" type="time"></div>
-        </div>
-        <button type="submit" class="seal"><i class="seal__i"></i><small>seal &amp; send</small></button>
-        <p class="deadline">Kindly respond by 30 September 2026.</p>
-      </form>
-      <div class="rsvp-success">
-        <div class="big">Thank you, <span id="rsvpName">friend</span>!</div>
-        <p>Your reply is in — we can't wait to welcome you to Gwalior.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== GALLERY / CLOSING ===================== -->
+  <!-- ===================== US, LATELY (couple photos) ===================== -->
   <section class="section section--cream" id="gallery">
     <div class="wrap center">
       <p class="eyebrow reveal">Moments</p>
       <h2 class="display reveal">Us, lately</h2>
-      <p class="lead reveal" style="max-width:50ch;margin:12px auto 0">Your photos become part of our story — add yours to our shared album, and browse everyone else's.</p>
-      <div class="gp-share reveal">
-        <!-- TODO: paste your Google Photos shared-album link in href="" below (replace the #) -->
-        <a class="album-btn" href="#" target="_blank" rel="noopener">📷 Open the shared album</a>
-      </div>
+      <p class="lead reveal" style="max-width:48ch;margin:12px auto 0">A little photo diary of the two of us — our story so far, in pictures.</p>
     </div>
     <div class="wrap">
       <div class="collage reveal" id="gpGrid">
@@ -702,12 +702,6 @@
         <div class="photo"><i>❀</i><span>photo</span></div>
         <div class="photo t"><i>❀</i><span>photo</span></div>
         <div class="photo"><i>❀</i><span>photo</span></div>
-      </div>
-      <div class="closing reveal">
-        <div class="big">We can't wait to celebrate with you.</div>
-        <span class="mono" aria-hidden="true"><i class="mono__i"></i></span>
-        <div class="date">19–20 November 2026 · Gwalior</div>
-        <a href="#rsvp" class="rsvp">RSVP</a>
       </div>
     </div>
   </section>
@@ -731,6 +725,28 @@
       </div>
       <button id="plAdminToggle" class="pl-admin-link" type="button">Curate · admin</button>
       <div id="plAdmin" class="pl-admin" hidden></div>
+    </div>
+  </section>
+
+  <!-- ===================== SHARED WEDDING ALBUM ===================== -->
+  <section class="section section--cream" id="album">
+    <img class="accent" src="assets/cluster.png" alt="" aria-hidden="true" style="bottom:-30px;right:-64px;width:220px;transform:scaleX(-1);opacity:.5">
+    <div class="wrap center">
+      <p class="eyebrow reveal">Through your eyes</p>
+      <h2 class="display reveal">The wedding album</h2>
+      <p class="lead reveal" style="max-width:50ch;margin:0 auto">Every photo you take is part of the day we'll treasure. Join our shared album to add the moments you capture — and relive the whole celebration through everyone else's.</p>
+      <div class="gp-share reveal">
+        <a class="album-btn" href="https://photos.app.goo.gl/RK8ADh1YhEhNaqXDA" target="_blank" rel="noopener">📷 Join the shared album</a>
+      </div>
+      <p class="album-hint reveal">Open it on your phone, tap <b>Join</b>, and your photos land here for everyone to enjoy.</p>
+    </div>
+    <div class="wrap">
+      <div class="closing reveal">
+        <div class="big">We can't wait to celebrate with you.</div>
+        <span class="mono" aria-hidden="true"><i class="mono__i"></i></span>
+        <div class="date">19–20 November 2026 · Gwalior</div>
+        <a href="#rsvp" class="rsvp">RSVP</a>
+      </div>
     </div>
   </section>
 
