@@ -208,6 +208,50 @@
   .venue-img{width:100%;border-radius:8px;margin-bottom:clamp(20px,2.8vw,32px);
     box-shadow:0 8px 24px -12px rgba(60,16,12,.35);object-fit:cover}
 
+  /* ---------- TRAVEL · rich mode panels ---------- */
+  .tpanel{margin-top:clamp(34px,5vw,54px);background:var(--cream-2);border:1px solid rgba(154,122,48,.4);border-radius:12px;
+    padding:clamp(22px,3.4vw,42px);box-shadow:0 20px 46px -32px rgba(60,16,12,.5);position:relative}
+  .tpanel::after{content:"";position:absolute;inset:9px;border:1px solid rgba(154,122,48,.22);border-radius:7px;pointer-events:none}
+  .tpanel__head{display:flex;align-items:flex-start;gap:15px;margin-bottom:clamp(18px,2.6vw,26px)}
+  .thead-ic{flex:none;width:46px;height:46px;border-radius:50%;border:1.5px solid var(--gold);color:var(--gold-deep);
+    display:flex;align-items:center;justify-content:center;font-size:20px}
+  .tpanel__head h4{font-size:clamp(21px,2.6vw,27px);font-weight:600;color:var(--red);line-height:1.14}
+  .tpanel__head p{font-size:15.5px;line-height:1.5;color:var(--ink);opacity:.82;margin-top:4px;font-style:italic}
+  .trains{display:flex;flex-direction:column;gap:11px}
+  .trn{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1.5fr);align-items:center;gap:8px 22px;
+    background:var(--cream);border:1px solid rgba(154,122,48,.3);border-radius:10px;padding:14px clamp(15px,2vw,22px)}
+  .trn--star{border-color:rgba(201,162,78,.8);box-shadow:inset 0 0 0 1px rgba(201,162,78,.3)}
+  .trn__name{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+  .trn__name b{font-size:18px;font-weight:600;color:var(--red);line-height:1.15}
+  .trn__no{font-size:12.5px;letter-spacing:.05em;color:var(--gold-deep)}
+  .trn__tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--red-deep);background:var(--gold);
+    padding:3px 9px;border-radius:99px;white-space:nowrap}
+  .trn__tag--fast{background:var(--red);color:#FBF3E4}
+  .trn__leg{display:flex;align-items:center;gap:6px}
+  .trn__pt{display:flex;flex-direction:column;line-height:1.1;flex:none}
+  .trn__pt b{font-size:19px;font-weight:600;color:var(--ink)}
+  .trn__pt small{font-size:11.5px;color:var(--gold-deep);letter-spacing:.01em;margin-top:2px;white-space:nowrap}
+  .trn__pt--to{text-align:right}
+  .trn__sep{flex:1;position:relative;min-width:58px;text-align:center;align-self:center}
+  .trn__sep::before{content:"";position:absolute;top:8px;left:2px;right:2px;height:1px;
+    background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+  .trn__sep span{position:relative;background:var(--cream);padding:0 7px;font-size:11px;color:var(--gold-deep);letter-spacing:.03em}
+  .tnote{margin-top:clamp(15px,2vw,20px);font-size:13.5px;line-height:1.55;color:var(--ink);opacity:.75}
+  .tnote b{color:var(--red-deep);opacity:1}
+  .tnote a{color:var(--red);text-decoration:none;border-bottom:1px solid var(--blush);white-space:nowrap}
+  .tnote a:hover{color:var(--gold-deep)}
+
+  .tgrid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,3vw,26px);margin-top:clamp(18px,3vw,26px)}
+  .tcard{background:var(--cream-2);border:1px solid rgba(154,122,48,.4);border-radius:12px;padding:clamp(20px,2.8vw,30px);
+    box-shadow:0 16px 38px -30px rgba(60,16,12,.45);display:flex;flex-direction:column;gap:11px;position:relative}
+  .tcard h4{font-size:22px;font-weight:600;color:var(--red)}
+  .tcard p{font-size:15.5px;line-height:1.62;color:var(--ink);opacity:.9}
+  .tcard p b{color:var(--red-deep);font-weight:600}
+  .tlink{display:inline-block;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);
+    text-decoration:none;border-bottom:1px solid var(--blush);padding-bottom:3px;transition:color .2s,border-color .2s;align-self:flex-start}
+  .tcard .tlink{margin-top:auto;padding-top:6px}
+  .tlink:hover{color:var(--gold-deep);border-color:var(--gold-deep)}
+
   /* ---------- RSVP ---------- */
   .rsvp-card{position:relative;z-index:3;width:min(640px,92%);margin:clamp(36px,5vw,56px) auto 0;background:var(--cream-2);
     border:1px solid rgba(154,122,48,.5);border-radius:8px;padding:clamp(28px,4.5vw,52px);
@@ -319,6 +363,10 @@
     .chapter p{max-width:none}
     .photo{aspect-ratio:16/10}
     .triple{grid-template-columns:1fr;gap:26px}
+    .tgrid{grid-template-columns:1fr}
+    .trn{grid-template-columns:1fr;gap:11px}
+    .trn__leg{justify-content:space-between}
+    .trn__sep{min-width:44px}
     .hotels{grid-template-columns:1fr}
     .event{grid-template-columns:1fr;gap:8px;text-align:left}
     .event__meta{align-items:flex-start;text-align:left;flex-direction:row;gap:10px 18px;flex-wrap:wrap}
@@ -520,13 +568,83 @@
     <div class="wrap center">
       <p class="eyebrow reveal">Getting to Gwalior</p>
       <h2 class="display reveal">Travel</h2>
-      <p class="lead reveal" style="max-width:48ch;margin:0 auto">Gwalior is easy to reach by air, rail and road — and every celebration happens at one address.</p>
+      <p class="lead reveal" style="max-width:50ch;margin:0 auto">Gwalior is easy to reach — fast trains from Delhi, a growing airport, and a smooth drive down. Here's how to get here.</p>
     </div>
     <div class="wrap">
-      <div class="triple">
-        <div class="info reveal"><i>✈</i><h4>By air</h4><p>Gwalior Airport (GWL) is ~10 km from the city. Indore, Bhopal and Delhi are the nearest large hubs with onward connections.</p></div>
-        <div class="info reveal"><i>❖</i><h4>By train</h4><p>Gwalior Junction sits on the main Delhi–Chennai line, with fast connections from Delhi (~3–4 hrs) and Agra (~1.5 hrs).</p></div>
-        <div class="info reveal"><i>❀</i><h4>By road</h4><p>An easy, scenic drive from Agra (~120 km) and Delhi (~320 km) on the expressway, right up to the resort.</p></div>
+      <div class="tpanel reveal">
+        <div class="tpanel__head">
+          <span class="thead-ic" aria-hidden="true">❖</span>
+          <div>
+            <h4>By train — the easiest way in</h4>
+            <p>Fast, comfortable day trains from Delhi to Gwalior Junction, all arriving Thursday 19 Nov before mid-afternoon.</p>
+          </div>
+        </div>
+        <div class="trains">
+
+          <div class="trn">
+            <div class="trn__name"><b>Vande Bharat Express</b><span class="trn__no">22470</span><span class="trn__tag">Premium AC</span></div>
+            <div class="trn__leg">
+              <span class="trn__pt"><b>06:00</b><small>H. Nizamuddin</small></span>
+              <span class="trn__sep"><span>3h 05m</span></span>
+              <span class="trn__pt trn__pt--to"><b>09:05</b><small>Gwalior</small></span>
+            </div>
+          </div>
+
+          <div class="trn">
+            <div class="trn__name"><b>Shatabdi Express</b><span class="trn__no">12002</span><span class="trn__tag">Premium AC</span></div>
+            <div class="trn__leg">
+              <span class="trn__pt"><b>06:00</b><small>New Delhi</small></span>
+              <span class="trn__sep"><span>3h 23m</span></span>
+              <span class="trn__pt trn__pt--to"><b>09:23</b><small>Gwalior</small></span>
+            </div>
+          </div>
+
+          <div class="trn trn--star">
+            <div class="trn__name"><b>Gatimaan Express</b><span class="trn__no">12050</span><span class="trn__tag trn__tag--fast">Fastest</span></div>
+            <div class="trn__leg">
+              <span class="trn__pt"><b>08:10</b><small>H. Nizamuddin</small></span>
+              <span class="trn__sep"><span>2h 57m</span></span>
+              <span class="trn__pt trn__pt--to"><b>11:07</b><small>Gwalior</small></span>
+            </div>
+          </div>
+
+          <div class="trn">
+            <div class="trn__name"><b>Karnataka S. Kranti</b><span class="trn__no">12650</span></div>
+            <div class="trn__leg">
+              <span class="trn__pt"><b>08:20</b><small>H. Nizamuddin</small></span>
+              <span class="trn__sep"><span>3h 23m</span></span>
+              <span class="trn__pt trn__pt--to"><b>11:43</b><small>Gwalior</small></span>
+            </div>
+          </div>
+
+          <div class="trn">
+            <div class="trn__name"><b>Taj Express</b><span class="trn__no">12280</span></div>
+            <div class="trn__leg">
+              <span class="trn__pt"><b>07:08</b><small>H. Nizamuddin</small></span>
+              <span class="trn__sep"><span>4h 42m</span></span>
+              <span class="trn__pt trn__pt--to"><b>11:50</b><small>Gwalior</small></span>
+            </div>
+          </div>
+
+        </div>
+        <p class="tnote">Timings for <b>Thursday 19 Nov 2026</b>. New Delhi (NDLS) and Hazrat Nizamuddin (NZM) are two different Delhi stations — do check which one your train leaves from. Please reconfirm exact times on IRCTC when booking, as schedules can shift. <a href="https://www.ixigo.com/by-train-rail/new-delhi-to-gwalior-by-train" target="_blank" rel="noopener">Check live times &amp; book ↗</a></p>
+      </div>
+
+      <div class="tgrid">
+        <div class="tcard reveal">
+          <span class="thead-ic" aria-hidden="true">✈</span>
+          <h4>By air</h4>
+          <p>Most guests fly into <b>Delhi (DEL)</b> — the largest hub, with the best domestic and international links — then take one of the ~3-hour trains above, or drive down (~5½ hrs).</p>
+          <p>Landing closer? <b>Gwalior (GWL)</b> has a brand-new terminal with daily non-stops from Delhi &amp; Mumbai (plus Indore and Bhopal), just ~10 km from town.</p>
+          <a class="tlink" href="https://www.google.com/travel/flights?q=flights%20to%20Gwalior" target="_blank" rel="noopener">Search flights ↗</a>
+        </div>
+        <div class="tcard reveal">
+          <span class="thead-ic" aria-hidden="true">❀</span>
+          <h4>By road</h4>
+          <p>From <b>Delhi (~355 km, 5½–6 hrs)</b>: the Yamuna Expressway to Agra, then NH-44 straight down. From <b>Agra it's ~120 km (~2 hrs)</b> — an easy, scenic drive.</p>
+          <p>Self-drive or hire an outstation taxi; the resort has parking, and we're glad to help arrange a cab.</p>
+          <a class="tlink" href="https://www.google.com/maps/dir/?api=1&amp;destination=Empire%20Resorts%20Gwalior&amp;travelmode=driving" target="_blank" rel="noopener">Directions to the resort ↗</a>
+        </div>
       </div>
       <div class="venue reveal">
         <img class="venue-img" src="assets/empire-resort.png" alt="The Empire Resort, Gwalior" loading="lazy" onerror="this.style.display='none'">
