@@ -240,6 +240,10 @@
   .tnote b{color:var(--red-deep);opacity:1}
   .tnote a{color:var(--red);text-decoration:none;border-bottom:1px solid var(--blush);white-space:nowrap}
   .tnote a:hover{color:var(--gold-deep)}
+  .tgroup__ttl{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep);font-weight:600;margin-top:0}
+  .tgroup__ttl span{color:var(--red);letter-spacing:.03em}
+  .tgroup__ttl.tgroup--rtn{margin-top:clamp(24px,3.4vw,34px);padding-top:clamp(20px,2.6vw,26px);border-top:1px solid rgba(154,122,48,.32)}
+  .tgroup__sub{font-size:14.5px;font-style:italic;color:var(--ink);opacity:.82;margin:5px 0 clamp(13px,1.8vw,17px)}
 
   .tgrid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,3vw,26px);margin-top:clamp(18px,3vw,26px)}
   .tcard{background:var(--cream-2);border:1px solid rgba(154,122,48,.4);border-radius:12px;padding:clamp(20px,2.8vw,30px);
@@ -605,9 +609,11 @@
           <span class="thead-ic" aria-hidden="true">❖</span>
           <div>
             <h4>By train — the easiest way in</h4>
-            <p>Fast, comfortable day trains from Delhi to Gwalior Junction, all arriving Thursday 19 Nov before mid-afternoon.</p>
+            <p>Fast, comfortable trains between Delhi and Gwalior Junction — here's both legs of the trip.</p>
           </div>
         </div>
+        <p class="tgroup__ttl">Getting there · <span>Delhi → Gwalior</span></p>
+        <p class="tgroup__sub">Arriving Thursday 19 Nov, before mid-afternoon.</p>
         <div class="trains">
 
           <div class="trn">
@@ -657,6 +663,31 @@
 
         </div>
         <p class="tnote">Timings for <b>Thursday 19 Nov 2026</b>. New Delhi (NDLS) and Hazrat Nizamuddin (NZM) are two different Delhi stations — do check which one your train leaves from. Please reconfirm exact times on IRCTC when booking, as schedules can shift. <a href="https://www.ixigo.com/by-train-rail/new-delhi-to-gwalior-by-train" target="_blank" rel="noopener">Check live times &amp; book ↗</a></p>
+
+        <p class="tgroup__ttl tgroup--rtn">Heading home · <span>Gwalior → Delhi</span></p>
+        <p class="tgroup__sub">Morning trains back to Delhi on Saturday 21 Nov.</p>
+        <div class="trains">
+
+          <div class="trn">
+            <div class="trn__name"><b>Kerala Express</b><span class="trn__no">12625</span><span class="trn__tag">Daily</span></div>
+            <div class="trn__leg">
+              <span class="trn__pt"><b>08:42</b><small>Gwalior</small></span>
+              <span class="trn__sep"><span>4h 48m</span></span>
+              <span class="trn__pt trn__pt--to"><b>13:30</b><small>New Delhi</small></span>
+            </div>
+          </div>
+
+          <div class="trn">
+            <div class="trn__name"><b>Hirakud Express</b><span class="trn__no">20807</span></div>
+            <div class="trn__leg">
+              <span class="trn__pt"><b>08:57</b><small>Gwalior</small></span>
+              <span class="trn__sep"><span>5h 33m</span></span>
+              <span class="trn__pt trn__pt--to"><b>14:30</b><small>H. Nizamuddin</small></span>
+            </div>
+          </div>
+
+        </div>
+        <p class="tnote">Timings for <b>Saturday 21 Nov 2026</b>. The fast <b>Vande Bharat</b> (20171, dep 09:45, 3h 31m) is the quickest way back — but it doesn't run on Saturdays, so it isn't an option on the 21st itself. Reconfirm on IRCTC when booking. <a href="https://www.ixigo.com/by-train-rail/gwalior-to-new-delhi-by-train" target="_blank" rel="noopener">Check live times &amp; book ↗</a></p>
       </div>
 
       <div class="tgrid">
