@@ -240,10 +240,20 @@
   .tnote b{color:var(--red-deep);opacity:1}
   .tnote a{color:var(--red);text-decoration:none;border-bottom:1px solid var(--blush);white-space:nowrap}
   .tnote a:hover{color:var(--gold-deep)}
-  .tgroup__ttl{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep);font-weight:600;margin-top:0}
-  .tgroup__ttl span{color:var(--red);letter-spacing:.03em}
-  .tgroup__ttl.tgroup--rtn{margin-top:clamp(24px,3.4vw,34px);padding-top:clamp(20px,2.6vw,26px);border-top:1px solid rgba(154,122,48,.32)}
-  .tgroup__sub{font-size:14.5px;font-style:italic;color:var(--ink);opacity:.82;margin:5px 0 clamp(13px,1.8vw,17px)}
+  .ttabs{display:flex;gap:5px;background:var(--cream);border:1px solid rgba(154,122,48,.4);border-radius:999px;
+    padding:5px;margin-bottom:clamp(16px,2.4vw,22px)}
+  .ttab{flex:1;border:none;background:transparent;cursor:pointer;font-family:"Cormorant Garamond",serif;
+    border-radius:999px;padding:9px 12px;text-align:center;line-height:1.1;transition:background .2s}
+  .ttab b{display:block;font-size:16.5px;font-weight:600;color:var(--red);transition:color .2s}
+  .ttab span{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-deep);margin-top:3px;transition:color .2s}
+  .ttab:hover{background:rgba(154,122,48,.12)}
+  .ttab.is-on,.ttab.is-on:hover{background:var(--red)}
+  .ttab.is-on b{color:#FBF3E4}
+  .ttab.is-on span{color:var(--tx-mut)}
+  .tpane[hidden]{display:none}
+  .tpane{animation:tfade .25s ease}
+  @keyframes tfade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .tgroup__sub{font-size:14.5px;font-style:italic;color:var(--ink);opacity:.82;margin:0 0 clamp(13px,1.8vw,17px)}
 
   .tgrid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,3vw,26px);margin-top:clamp(18px,3vw,26px)}
   .tcard{background:var(--cream-2);border:1px solid rgba(154,122,48,.4);border-radius:12px;padding:clamp(20px,2.8vw,30px);
@@ -612,7 +622,12 @@
             <p>Fast, comfortable trains between Delhi and Gwalior Junction — here's both legs of the trip.</p>
           </div>
         </div>
-        <p class="tgroup__ttl">Getting there · <span>Delhi → Gwalior</span></p>
+        <div class="ttabs" role="tablist" aria-label="Train direction">
+          <button class="ttab is-on" type="button" data-pane="out" role="tab" aria-selected="true"><b>Getting there</b><span>Delhi → Gwalior</span></button>
+          <button class="ttab" type="button" data-pane="rtn" role="tab" aria-selected="false"><b>Heading home</b><span>Gwalior → Delhi</span></button>
+        </div>
+
+        <div class="tpane is-on" data-pane="out" role="tabpanel">
         <p class="tgroup__sub">Arriving Thursday 19 Nov, before mid-afternoon.</p>
         <div class="trains">
 
@@ -663,8 +678,9 @@
 
         </div>
         <p class="tnote">Timings for <b>Thursday 19 Nov 2026</b>. New Delhi (NDLS) and Hazrat Nizamuddin (NZM) are two different Delhi stations — do check which one your train leaves from. Please reconfirm exact times on IRCTC when booking, as schedules can shift. <a href="https://www.ixigo.com/by-train-rail/new-delhi-to-gwalior-by-train" target="_blank" rel="noopener">Check live times &amp; book ↗</a></p>
+        </div>
 
-        <p class="tgroup__ttl tgroup--rtn">Heading home · <span>Gwalior → Delhi</span></p>
+        <div class="tpane" data-pane="rtn" role="tabpanel" hidden>
         <p class="tgroup__sub">Morning trains back to Delhi on Saturday 21 Nov.</p>
         <div class="trains">
 
@@ -688,6 +704,7 @@
 
         </div>
         <p class="tnote">Timings for <b>Saturday 21 Nov 2026</b>. The fast <b>Vande Bharat</b> (20171, dep 09:45, 3h 31m) is the quickest way back — but it doesn't run on Saturdays, so it isn't an option on the 21st itself. Reconfirm on IRCTC when booking. <a href="https://www.ixigo.com/by-train-rail/gwalior-to-new-delhi-by-train" target="_blank" rel="noopener">Check live times &amp; book ↗</a></p>
+        </div>
       </div>
 
       <div class="tgrid">
@@ -981,6 +998,20 @@
         if(r.ok){row.remove();}
         else{btn.disabled=false;btn.textContent='Remove';an.textContent=r.status===401?'Wrong password.':'Couldn’t remove that one.';}
       }catch(e){btn.disabled=false;btn.textContent='Remove';}
+    });
+  });
+})();
+
+/* ---------- Travel: train direction tabs ---------- */
+(function(){
+  var tabs=[].slice.call(document.querySelectorAll('.ttab'));
+  if(!tabs.length) return;
+  var panes=[].slice.call(document.querySelectorAll('.tpane'));
+  tabs.forEach(function(t){
+    t.addEventListener('click',function(){
+      var key=t.getAttribute('data-pane');
+      tabs.forEach(function(x){var on=x===t;x.classList.toggle('is-on',on);x.setAttribute('aria-selected',on?'true':'false');});
+      panes.forEach(function(p){var show=p.getAttribute('data-pane')===key;p.classList.toggle('is-on',show);p.hidden=!show;});
     });
   });
 })();
