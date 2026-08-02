@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+  <rect width="400" height="500" fill="#F6E9D2"/>
+  <g fill="#C9A24E">
+    <circle cx="200" cy="100" r="3.2"/><circle cx="183" cy="100" r="2"/><circle cx="217" cy="100" r="2"/>
+    <circle cx="200" cy="400" r="3.2"/><circle cx="183" cy="400" r="2"/><circle cx="217" cy="400" r="2"/>
+  </g>
+  <!-- lamp bowl -->
+  <path d="M136,300 Q200,346 264,300" fill="#F6E9D2" stroke="#841B18" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M136,300 Q200,290 264,300" fill="none" stroke="#841B18" stroke-width="3.6" stroke-linecap="round"/>
+  <path d="M154,314 Q200,324 246,314" fill="none" stroke="#841B18" stroke-width="2.2" stroke-linecap="round"/>
+  <g fill="#841B18"><circle cx="176" cy="320" r="2"/><circle cx="200" cy="323" r="2"/><circle cx="224" cy="320" r="2"/></g>
+  <!-- foot -->
+  <path d="M182,346 L178,357 L222,357 L218,346" fill="none" stroke="#841B18" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M168,357 Q200,363 232,357" fill="none" stroke="#841B18" stroke-width="2.6" stroke-linecap="round"/>
+  <!-- flame -->
+  <path d="M200,298 C182,276 190,248 200,228 C210,248 218,276 200,298 Z" fill="none" stroke="#841B18" stroke-width="3.2" stroke-linejoin="round"/>
+  <path d="M200,292 C191,278 195,260 200,246 C205,260 209,278 200,292 Z" fill="#841B18"/>
+  <!-- sparkles -->
+  <g fill="#C9A24E"><circle cx="166" cy="258" r="2.4"/><circle cx="234" cy="258" r="2.4"/><circle cx="200" cy="220" r="2.4"/></g>
+</svg>
