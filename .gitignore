@@ -7,3 +7,8 @@ node_modules/
 # OS cruft
 .DS_Store
 **/.DS_Store
+
+# local secrets (never commit)
+.gemini_key
+.env
+key.txt
