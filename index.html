@@ -310,7 +310,15 @@
   .us-photo img{width:100%;display:block;transition:transform .5s ease;-webkit-backface-visibility:hidden}
   .us-photo:hover img{transform:scale(1.05)}
   @media(max-width:820px){.us-wall{column-count:2}}
-  @media(max-width:420px){.us-wall{column-count:1;max-width:340px;margin-left:auto;margin-right:auto}}
+  /* phones: horizontal swipe filmstrip instead of a long vertical list */
+  @media(max-width:680px){
+    .us-wall{column-count:initial;display:flex;align-items:center;gap:12px;overflow-x:auto;overflow-y:hidden;
+      scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:2px 0 16px;
+      scrollbar-width:none;max-width:none}
+    .us-wall::-webkit-scrollbar{display:none}
+    .us-photo{flex:0 0 82%;width:82%;margin:0;scroll-snap-align:center}
+    .us-photo img{width:100%;height:auto;max-width:100%}
+  }
   /* shared photo album link */
   .gp-share{margin:clamp(22px,3vw,34px) auto 0;display:flex;justify-content:center}
   .album-btn{display:inline-flex;align-items:center;gap:9px;font-family:"Cormorant Garamond",serif;font-size:18px;
