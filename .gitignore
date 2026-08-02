@@ -12,3 +12,6 @@ node_modules/
 .gemini_key
 .env
 key.txt
+
+# source photo dump (originals, HEIC, zip) — keep out of repo
+Images/
