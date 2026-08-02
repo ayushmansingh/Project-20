@@ -77,7 +77,7 @@
   /* the A/D monogram logo, masked so it recolors to the badge's currentColor */
   .mono__i{display:block;width:74%;height:74%;background:currentColor;
     -webkit-mask:url(assets/monogram.png) center/contain no-repeat;mask:url(assets/monogram.png) center/contain no-repeat}
-  .seal__i{display:block;width:50px;height:50px;margin:0 auto -2px;background:currentColor;
+  .seal__i{display:block;width:42px;height:42px;margin:0 auto 3px;background:currentColor;
     -webkit-mask:url(assets/monogram.png) center/contain no-repeat;mask:url(assets/monogram.png) center/contain no-repeat}
   .rsvp{border:1.5px solid var(--gold);color:#FBF3E4;border-radius:999px;letter-spacing:.12em;text-transform:uppercase;
     text-decoration:none;display:inline-block;transition:background .2s,color .2s;white-space:nowrap}
@@ -288,7 +288,7 @@
     color:#F4D9B0;box-shadow:0 10px 22px -8px rgba(60,8,8,.7),inset 0 0 0 3px rgba(201,162,78,.5);
     transition:transform .15s}
   .seal:hover{transform:scale(1.05)}.seal:active{transform:scale(.97)}
-  .seal small{display:block;font-family:"Cormorant Garamond";font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#E7C07A;margin-top:-4px}
+  .seal small{display:block;font-family:"Cormorant Garamond";font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#E7C07A;margin-top:1px}
   .deadline{text-align:center;margin-top:18px;font-style:italic;color:var(--gold-deep);font-size:15px}
   .rsvp-success{display:none;text-align:center;padding:18px 4px}
   .rsvp-card.done .rsvp-form{display:none}
@@ -316,8 +316,8 @@
       scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:2px 0 16px;
       scrollbar-width:none;max-width:none}
     .us-wall::-webkit-scrollbar{display:none}
-    .us-photo{flex:0 0 82%;width:82%;margin:0;scroll-snap-align:center}
-    .us-photo img{width:100%;height:auto;max-width:100%}
+    .us-photo{flex:0 0 82%;width:82%;margin:0;scroll-snap-align:center;aspect-ratio:4/5}
+    .us-photo img{width:100%;height:100%;object-fit:cover;max-width:100%}
   }
   /* shared photo album link */
   .gp-share{margin:clamp(22px,3vw,34px) auto 0;display:flex;justify-content:center}
@@ -715,9 +715,10 @@
         <div class="tcard reveal">
           <span class="thead-ic" aria-hidden="true">✈</span>
           <h4>By air</h4>
-          <p>Most guests fly into <b>Delhi (DEL)</b> — the largest hub, with the best domestic and international links — then take one of the ~3-hour trains above, or drive down (~5½ hrs).</p>
-          <p>Landing closer? <b>Gwalior (GWL)</b> has a brand-new terminal with daily non-stops from Delhi &amp; Mumbai (plus Indore and Bhopal), just ~10 km from town.</p>
-          <a class="tlink" href="https://www.google.com/travel/flights?q=flights%20to%20Gwalior" target="_blank" rel="noopener">Search flights ↗</a>
+          <p>From <b>Bangalore (BLR)</b> there's a daily non-stop to <b>Gwalior (GWL)</b> — about <b>2h 40m</b> on IndiGo / Air India Express — plus connections via Delhi. GWL airport is ~10 km from town.</p>
+          <p>It flies both ways, so the return is a direct <b>Gwalior → Bangalore</b> hop too. Coming from elsewhere? Fly into <b>Delhi (DEL)</b> and take a ~3-hour train down.</p>
+          <a class="tlink" href="https://www.google.com/travel/flights?q=flights%20from%20Bangalore%20to%20Gwalior" target="_blank" rel="noopener">Bangalore → Gwalior ↗</a>
+          <a class="tlink" href="https://www.google.com/travel/flights?q=flights%20from%20Gwalior%20to%20Bangalore" target="_blank" rel="noopener" style="margin-top:0;padding-top:0">Gwalior → Bangalore ↗</a>
         </div>
         <div class="tcard reveal">
           <span class="thead-ic" aria-hidden="true">❀</span>
@@ -747,14 +748,14 @@
     </div>
     <div class="wrap">
       <div class="us-wall reveal">
-        <a class="us-photo" href="assets/us/us-01.jpg" target="_blank" rel="noopener"><img src="assets/us/us-01.jpg" alt="Dhwani &amp; Ayushman" loading="lazy"></a>
-        <a class="us-photo" href="assets/us/us-02.jpg" target="_blank" rel="noopener"><img src="assets/us/us-02.jpg" alt="Dhwani &amp; Ayushman" loading="lazy"></a>
-        <a class="us-photo" href="assets/us/us-03.jpg" target="_blank" rel="noopener"><img src="assets/us/us-03.jpg" alt="Dhwani &amp; Ayushman" loading="lazy"></a>
         <a class="us-photo" href="assets/us/us-04.jpg" target="_blank" rel="noopener"><img src="assets/us/us-04.jpg" alt="Dhwani &amp; Ayushman" loading="lazy"></a>
-        <a class="us-photo" href="assets/us/us-05.jpg" target="_blank" rel="noopener"><img src="assets/us/us-05.jpg" alt="Dhwani &amp; Ayushman" loading="lazy"></a>
         <a class="us-photo" href="assets/us/us-06.jpg" target="_blank" rel="noopener"><img src="assets/us/us-06.jpg" alt="Dhwani &amp; Ayushman" loading="lazy"></a>
+        <a class="us-photo" href="assets/us/us-01.jpg" target="_blank" rel="noopener"><img src="assets/us/us-01.jpg" alt="Dhwani &amp; Ayushman" loading="lazy"></a>
+        <a class="us-photo" href="assets/us/us-05.jpg" target="_blank" rel="noopener"><img src="assets/us/us-05.jpg" alt="Dhwani &amp; Ayushman" loading="lazy"></a>
+        <a class="us-photo" href="assets/us/us-03.jpg" target="_blank" rel="noopener"><img src="assets/us/us-03.jpg" alt="Dhwani &amp; Ayushman" loading="lazy"></a>
         <a class="us-photo" href="assets/us/us-07.jpg" target="_blank" rel="noopener"><img src="assets/us/us-07.jpg" alt="Dhwani &amp; Ayushman" loading="lazy"></a>
         <a class="us-photo" href="assets/us/us-09.jpg" target="_blank" rel="noopener"><img src="assets/us/us-09.jpg" alt="Dhwani &amp; Ayushman" loading="lazy"></a>
+        <a class="us-photo" href="assets/us/us-02.jpg" target="_blank" rel="noopener"><img src="assets/us/us-02.jpg" alt="Dhwani &amp; Ayushman" loading="lazy"></a>
       </div>
     </div>
   </section>
