@@ -448,6 +448,9 @@
     html{scroll-behavior:auto}
   }
 </style>
+<!-- Family-friendly link: adding ?v=k9f2m to the URL hides the "Our story" section. Change the token below to rotate it. -->
+<style>.hide-story #story,.hide-story a[href="#story"]{display:none!important}</style>
+<script>(function(){try{if(new URLSearchParams(location.search).get('v')==='k9f2m')document.documentElement.classList.add('hide-story');}catch(e){}})();</script>
 </head>
 <body>
 
@@ -707,6 +710,24 @@
         <div class="tpane" data-pane="rtn" role="tabpanel" hidden>
         <p class="tgroup__sub">Morning trains back to Delhi on Saturday 21 Nov.</p>
         <div class="trains">
+
+          <div class="trn trn--star">
+            <div class="trn__name"><b>Mumbai Rajdhani</b><span class="trn__no">22221</span><span class="trn__tag trn__tag--fast">Fastest</span></div>
+            <div class="trn__leg">
+              <span class="trn__pt"><b>06:11</b><small>Gwalior</small></span>
+              <span class="trn__sep"><span>3h 44m</span></span>
+              <span class="trn__pt trn__pt--to"><b>09:55</b><small>H. Nizamuddin</small></span>
+            </div>
+          </div>
+
+          <div class="trn">
+            <div class="trn__name"><b>Chennai Duronto</b><span class="trn__no">12269</span><span class="trn__tag">Premium AC</span></div>
+            <div class="trn__leg">
+              <span class="trn__pt"><b>06:35</b><small>Gwalior</small></span>
+              <span class="trn__sep"><span>4h 05m</span></span>
+              <span class="trn__pt trn__pt--to"><b>10:40</b><small>H. Nizamuddin</small></span>
+            </div>
+          </div>
 
           <div class="trn">
             <div class="trn__name"><b>Kerala Express</b><span class="trn__no">12625</span><span class="trn__tag">Daily</span></div>
