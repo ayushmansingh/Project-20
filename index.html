@@ -365,6 +365,31 @@
   .pl-admin .arow button:hover{background:var(--gold);color:var(--red-deep)}
   @media(max-width:540px){.pl-admin .arow{flex-direction:column}.pl-admin .arow button{padding:11px}}
 
+  /* ---------- Marriage Wordle ---------- */
+  .wordle{margin:clamp(28px,4vw,44px) auto 0;display:flex;flex-direction:column;align-items:center}
+  .wd-board{display:flex;flex-direction:column;gap:6px;margin:0 auto}
+  .wd-row{display:flex;gap:6px;justify-content:center}
+  .wd-tile{flex:1 1 0;aspect-ratio:1;max-width:56px;display:flex;align-items:center;justify-content:center;
+    font-family:"Cormorant Garamond",serif;font-weight:600;font-size:clamp(20px,5.5vw,26px);text-transform:uppercase;
+    color:#FBF3E4;border:2px solid rgba(201,162,78,.45);border-radius:6px;background:transparent;
+    transition:transform .15s ease,background .25s,border-color .25s}
+  .wd-tile.filled{border-color:var(--gold)}
+  .wd-tile.hit{background:var(--olive);border-color:var(--olive);color:#FBF3E4}
+  .wd-tile.present{background:var(--gold);border-color:var(--gold);color:var(--red-deep)}
+  .wd-tile.miss{background:rgba(40,6,6,.45);border-color:transparent;color:var(--tx-mut)}
+  .wd-msg{min-height:24px;margin:16px 0 4px;font-style:italic;color:var(--tx-mut);font-size:16px;text-align:center}
+  .wd-msg.wd-win{color:var(--gold);font-style:normal;font-weight:600;letter-spacing:.02em}
+  .wd-keys{width:min(96vw,470px);margin:14px auto 0;display:flex;flex-direction:column;gap:6px}
+  .wd-krow{display:flex;gap:5px;justify-content:center}
+  .wd-key{flex:1 1 0;min-width:0;height:clamp(46px,11vw,54px);border:none;border-radius:7px;
+    background:rgba(251,243,228,.16);color:#FBF3E4;font-family:"Cormorant Garamond",serif;font-size:17px;
+    text-transform:uppercase;cursor:pointer;transition:background .2s;-webkit-tap-highlight-color:transparent}
+  .wd-key:hover{background:rgba(251,243,228,.26)}
+  .wd-key--wide{flex:1.5 1 0;font-size:12px;letter-spacing:.08em}
+  .wd-key.hit{background:var(--olive)}
+  .wd-key.present{background:var(--gold);color:var(--red-deep)}
+  .wd-key.miss{background:rgba(20,4,4,.5);color:var(--tx-mut)}
+
   /* ---------- scroll-drawn kolam spine ---------- */
   .kolam{position:absolute;top:0;left:0;width:100%;pointer-events:none;z-index:6;overflow:visible}
   .kolam__v{position:absolute;top:0;overflow:visible}
@@ -805,6 +830,23 @@
     </div>
   </section>
 
+  <!-- ===================== A LITTLE FUN — GAMES ===================== -->
+  <section class="section section--red" id="games">
+    <img class="accent" src="assets/cluster.png" alt="" aria-hidden="true" style="top:-30px;left:-64px;width:220px;opacity:.8">
+    <div class="wrap center">
+      <p class="eyebrow reveal">A little fun</p>
+      <h2 class="display reveal">Marriage Wordle</h2>
+      <p class="lead reveal" style="max-width:46ch;margin:0 auto">Six guesses to find today's word — always something from our wedding or our story. A new one lands each day.</p>
+    </div>
+    <div class="wrap">
+      <div class="wordle reveal" id="wordle">
+        <div class="wd-board" id="wdBoard" role="grid" aria-label="Wordle board"></div>
+        <p class="wd-msg" id="wdMsg" aria-live="polite"></p>
+        <div class="wd-keys" id="wdKeys" aria-label="Keyboard"></div>
+      </div>
+    </div>
+  </section>
+
   <footer>
     <div><b>#DhwaniWedsAyushman</b></div>
     <div style="margin-top:8px">Questions? <a href="tel:+917233018905">+91 72330 18905</a></div>
@@ -1021,6 +1063,94 @@
       panes.forEach(function(p){var show=p.getAttribute('data-pane')===key;p.classList.toggle('is-on',show);p.hidden=!show;});
     });
   });
+})();
+
+/* ---------- Marriage Wordle (answers stay on the server) ---------- */
+(function(){
+  const board=document.getElementById('wdBoard'), keysEl=document.getElementById('wdKeys'),
+        msg=document.getElementById('wdMsg'), wrapEl=document.getElementById('wordle');
+  if(!board||!keysEl) return;
+  const API='/.netlify/functions/wordle', MAXR=6, RANK={miss:0,present:1,hit:2};
+  let LEN=0, DAY='', row=0, col=0, grid=[], over=false, busy=false, visible=false, keyState={}, history=[];
+
+  fetch(API).then(r=>r.json()).then(d=>{
+    if(!d||!d.length){ msg.textContent='The game will be ready soon.'; return; }
+    LEN=d.length; DAY=d.id; build(); restore();
+  }).catch(()=>{ msg.textContent='The game will be ready soon.'; });
+
+  function build(){
+    board.style.width='min('+(LEN*56)+'px,92vw)'; board.innerHTML=''; grid=[];
+    for(let r=0;r<MAXR;r++){
+      const rowEl=document.createElement('div'); rowEl.className='wd-row'; const cells=[];
+      for(let c=0;c<LEN;c++){ const t=document.createElement('div'); t.className='wd-tile'; rowEl.appendChild(t); cells.push(t); }
+      board.appendChild(rowEl); grid.push(cells);
+    }
+    keysEl.innerHTML='';
+    ['QWERTYUIOP','ASDFGHJKL','ZXCVBNM'].forEach((kr,ri)=>{
+      const rEl=document.createElement('div'); rEl.className='wd-krow';
+      if(ri===2) rEl.appendChild(mkKey('Enter','enter',true));
+      for(const ch of kr) rEl.appendChild(mkKey(ch,ch,false));
+      if(ri===2) rEl.appendChild(mkKey('⌫','back',true));
+      keysEl.appendChild(rEl);
+    });
+  }
+  function mkKey(label,val,wide){
+    const b=document.createElement('button'); b.type='button'; b.className='wd-key'+(wide?' wd-key--wide':'');
+    b.textContent=label; b.dataset.k=val; b.addEventListener('click',()=>press(val)); return b;
+  }
+  function press(k){
+    if(over||busy) return;
+    if(k==='enter') return submit();
+    if(k==='back'){ if(col>0){ col--; const t=grid[row][col]; t.textContent=''; t.classList.remove('filled'); } return; }
+    if(/^[a-z]$/i.test(k) && col<LEN){ const t=grid[row][col]; t.textContent=k.toUpperCase(); t.classList.add('filled'); col++; }
+  }
+  function submit(){
+    if(col<LEN){ msg.textContent='Not enough letters'; return; }
+    const guess=grid[row].map(t=>t.textContent).join(''); busy=true;
+    fetch(API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({guess})})
+      .then(r=>r.json()).then(d=>{
+        busy=false;
+        if(!d||d.error){ msg.textContent='Hmm, try that again.'; return; }
+        history.push({g:guess,p:d.pattern}); paintRow(row,guess,d.pattern,true);
+        if(d.win){ over=true; setTimeout(()=>{ msg.textContent='🎉 You got it! A new word lands tomorrow.'; msg.classList.add('wd-win'); bounce(row); }, LEN*170); }
+        else { row++; col=0; if(row>=MAXR){ over=true; setTimeout(()=>{ msg.textContent='Out of guesses — a fresh word tomorrow!'; }, LEN*170); } else msg.textContent=''; }
+        stash();
+      }).catch(()=>{ busy=false; msg.textContent='Connection hiccup — try again.'; });
+  }
+  function paintRow(r,guess,pattern,animate){
+    for(let c=0;c<LEN;c++){
+      const t=grid[r][c], st=pattern[c];
+      if(animate) setTimeout(()=>t.classList.add(st), c*170); else t.classList.add(st);
+      const k=guess[c]; if(RANK[st] >= (keyState[k]!=null?RANK[keyState[k]]:-1)) keyState[k]=st;
+    }
+    if(animate) setTimeout(paintKeys, LEN*170); else paintKeys();
+  }
+  function paintKeys(){
+    keysEl.querySelectorAll('.wd-key').forEach(b=>{ const st=keyState[b.dataset.k]; if(st){ b.classList.remove('hit','present','miss'); b.classList.add(st); } });
+  }
+  function bounce(r){ grid[r].forEach((t,i)=>setTimeout(()=>{ t.style.transform='translateY(-9px)'; setTimeout(()=>t.style.transform='',180); }, i*70)); }
+  function stash(){ try{ localStorage.setItem('mw:'+DAY, JSON.stringify({history,over})); }catch(e){} }
+  function restore(){
+    let s=null; try{ s=JSON.parse(localStorage.getItem('mw:'+DAY)||'null'); }catch(e){}
+    if(!s||!Array.isArray(s.history)) return;
+    history=s.history.filter(h=>h&&h.g&&h.p&&h.g.length===LEN);
+    history.forEach((h,r)=>{ for(let c=0;c<LEN;c++){ const t=grid[r][c]; t.textContent=h.g[c]; t.classList.add('filled'); } paintRow(r,h.g,h.p,false); });
+    row=history.length; over=!!s.over || row>=MAXR;
+    const won=history.length && history[history.length-1].p.every(p=>p==='hit');
+    if(won){ over=true; msg.textContent='🎉 You solved today’s word!'; msg.classList.add('wd-win'); }
+    else if(over){ msg.textContent='A fresh word lands tomorrow!'; }
+  }
+  document.addEventListener('keydown',e=>{
+    if(!visible||over||busy) return;
+    if(e.target && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+    if(e.metaKey||e.ctrlKey||e.altKey) return;
+    if(e.key==='Enter'){ press('enter'); }
+    else if(e.key==='Backspace'){ press('back'); }
+    else if(/^[a-zA-Z]$/.test(e.key)){ press(e.key); }
+  });
+  if('IntersectionObserver' in window && wrapEl){
+    new IntersectionObserver(es=>es.forEach(en=>{ visible=en.isIntersecting; })).observe(wrapEl);
+  } else visible=true;
 })();
 
 /* ---------- scroll-drawn kolam spine ---------- */
