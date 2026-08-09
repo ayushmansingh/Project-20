@@ -418,6 +418,7 @@
   .cw-cell.good input{background:var(--olive);border-color:var(--olive);color:#FBF3E4}
   .cw-cell.bad input{color:#b23a2f;background:#F7DACF}
   .cw-cell.revealed input{color:var(--gold-deep)}
+  .cw-cell.given input{color:var(--gold-deep);font-weight:700;cursor:default}
   .cw-num{position:absolute;top:0;left:2px;font-size:9px;line-height:1.25;color:var(--gold-deep);pointer-events:none}
   .cw-clue{margin:14px auto 0;max-width:440px;text-align:center;font-style:italic;color:#F3E6D2;font-size:16px;min-height:22px}
   .cw-clue b{color:var(--gold);font-style:normal;letter-spacing:.03em}
@@ -1290,6 +1291,7 @@
   var CW={rows:8,cols:11,
     grid:["MNNIT.....E",".O........L",".V........E",".EXCHANGE.V",".M........E",".BANGALOREN",".E.........","PROPOSAL..."],
     nums:{"0-0":2,"0-1":3,"0-10":1,"3-1":4,"5-1":5,"7-0":6},
+    given:{"0-2":"N","1-1":"O","3-4":"H","5-5":"A","7-5":"S","2-10":"E"},
     across:[
       {num:2,r:0,c:0,len:5,clue:"Two disciplines, one campus"},
       {num:4,r:3,c:1,len:8,clue:"Two chose the same course, across the seas and quite by chance"},
@@ -1317,6 +1319,8 @@
     var inp=document.createElement('input');
     inp.type='text'; inp.maxLength=1; inp.setAttribute('inputmode','latin'); inp.autocapitalize='characters'; inp.autocomplete='off'; inp.spellcheck=false;
     inp.dataset.r=r; inp.dataset.c=c;
+    var g=CW.given[key(r,c)];
+    if(g){ inp.value=g; inp.readOnly=true; cell.classList.add('given'); }
     inp.addEventListener('focus',onFocus); inp.addEventListener('pointerdown',onPointer);
     inp.addEventListener('input',onInput); inp.addEventListener('keydown',onKey);
     cell.appendChild(inp); inputs[key(r,c)]=inp; gridEl.appendChild(cell);
@@ -1362,7 +1366,7 @@
     if(right) win(); else msg.textContent = filled ? 'Not quite — the red squares need another look.' : 'So far so good — keep going!'; }
   function hint(){ if(!cur) return; var s=sol(cur.r,cur.c), inp=inputs[key(cur.r,cur.c)]; if(!s||!inp) return;
     inp.value=s; inp.parentNode.classList.remove('bad'); inp.parentNode.classList.add('revealed'); save(); step(1); if(allCorrect()) win(); }
-  function clearAll(){ for(var k in inputs){ inputs[k].value=''; inputs[k].parentNode.classList.remove('good','bad','revealed'); } msg.textContent=''; msg.classList.remove('cw-win'); save(); }
+  function clearAll(){ for(var k in inputs){ if(inputs[k].readOnly) continue; inputs[k].value=''; inputs[k].parentNode.classList.remove('good','bad','revealed'); } msg.textContent=''; msg.classList.remove('cw-win'); save(); }
   function win(){ msg.textContent='🎉 You solved it — our whole story, one grid.'; msg.classList.add('cw-win');
     var i=0; for(var k in inputs){ (function(el,idx){ setTimeout(function(){ el.style.transform='translateY(-6px)'; setTimeout(function(){ el.style.transform=''; },200); }, idx*16); })(inputs[k].parentNode,i++); } }
   function save(){ try{ var d={}; for(var k in inputs){ if(inputs[k].value) d[k]=inputs[k].value; } localStorage.setItem('cw:bng2',JSON.stringify(d)); }catch(e){} }
