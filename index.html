@@ -457,9 +457,7 @@
       <div class="links" id="navLinks">
         <a href="#story">Our story</a>
         <a href="#events">Events</a>
-        <a href="#travel">Travel</a>
-        <a href="#playlist">Playlist</a>
-        <a href="#album">Album</a>
+        <a href="#travel">Travel</a>        <a href="#album">Album</a>
       </div>
       <a href="#rsvp" class="rsvp">RSVP</a>
       <button class="navtoggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false">
@@ -488,9 +486,7 @@
       <div class="h-nav__links">
         <a href="#story">Our story</a>
         <a href="#events">Events</a>
-        <a href="#travel">Travel</a>
-        <a href="#playlist">Playlist</a>
-        <a href="#album">Album</a>
+        <a href="#travel">Travel</a>        <a href="#album">Album</a>
         <a href="#rsvp" class="rsvp">RSVP</a>
       </div>
     </nav>
@@ -615,30 +611,20 @@
       </div>    </div>
   </section>
 
-  <!-- ===================== RSVP ===================== -->
-  <section class="section section--deep" id="rsvp">
-    <img class="accent" src="assets/cluster.png" alt="" aria-hidden="true" style="bottom:-30px;left:-70px;width:220px;opacity:.8">
-    <img class="accent" src="assets/cluster.png" alt="" aria-hidden="true" style="bottom:-30px;right:-70px;width:220px;opacity:.8;transform:scaleX(-1)">
+  <!-- ===================== WHERE IT ALL HAPPENS (venue) ===================== -->
+  <section class="section section--deep" id="venue">
+    <img class="accent" src="assets/cluster.png" alt="" aria-hidden="true" style="bottom:-30px;right:-64px;width:220px;transform:scaleX(-1);opacity:.85">
     <div class="wrap center">
-      <p class="eyebrow reveal">Will you join us?</p>
-      <h2 class="display reveal">Kindly reply</h2>
-      <p class="lead reveal" style="max-width:46ch;margin:0 auto">Tell us you're coming and when you'll arrive — so we can plan your welcome in Gwalior.</p>
+      <p class="eyebrow reveal">Where it all happens</p>
+      <h2 class="display reveal">The venue</h2>
     </div>
-    <div class="rsvp-card reveal" id="rsvpCard">
-      <form class="rsvp-form" id="rsvpForm" novalidate>
-        <div class="field"><label for="fullname">Full name(s)</label><input id="fullname" name="fullname" type="text" placeholder="Who's coming?" required></div>
-        <div class="field"><label for="guests">Number of guests</label>
-          <select id="guests" name="guests"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6+</option></select></div>
-        <div class="row2">
-          <div class="field"><label for="adate">Arrival date</label><input id="adate" name="adate" type="date" min="2026-11-16" max="2026-11-23"></div>
-          <div class="field"><label for="atime">Arrival time</label><input id="atime" name="atime" type="time"></div>
-        </div>
-        <button type="submit" class="seal"><i class="seal__i"></i><small>seal &amp; send</small></button>
-        <p class="deadline">Kindly respond by 30 September 2026.</p>
-      </form>
-      <div class="rsvp-success">
-        <div class="big">Thank you, <span id="rsvpName">friend</span>!</div>
-        <p>Your reply is in — we can't wait to welcome you to Gwalior.</p>
+    <div class="wrap">
+      <div class="venue reveal">
+        <img class="venue-img" src="assets/empire-resort.png" alt="The Empire Resort, Gwalior" loading="lazy" onerror="this.style.display='none'">
+        <h4>Empire Resorts</h4>
+        <p class="venue-sub">Gwalior, Madhya Pradesh</p>
+        <p class="venue-desc">From the Lagan Faldan to the wedding itself, nearly every celebration unfolds right here at Empire Resort — only the Baarat steps out, to nearby Shiv Hari Hotel. Just bring yourself.</p>
+        <a class="venue-link" href="https://www.google.com/maps/search/?api=1&amp;query=Empire+Resorts+Gwalior" target="_blank" rel="noopener">Get directions ↗</a>
       </div>
     </div>
   </section>
@@ -762,13 +748,24 @@
           <a class="tlink" href="https://www.google.com/maps/dir/?api=1&amp;destination=Empire%20Resorts%20Gwalior&amp;travelmode=driving" target="_blank" rel="noopener">Directions to the resort ↗</a>
         </div>
       </div>
-      <div class="venue reveal">
-        <img class="venue-img" src="assets/empire-resort.png" alt="The Empire Resort, Gwalior" loading="lazy" onerror="this.style.display='none'">
-        <p class="eyebrow">Where it all happens</p>
-        <h4>Empire Resorts</h4>
-        <p class="venue-sub">Gwalior, Madhya Pradesh</p>
-        <p class="venue-desc">From the Lagan Faldan to the wedding itself, nearly every celebration unfolds right here at Empire Resort — only the Baarat steps out, to nearby Shiv Hari Hotel. Just bring yourself.</p>
-        <a class="venue-link" href="https://www.google.com/maps/search/?api=1&amp;query=Empire+Resorts+Gwalior" target="_blank" rel="noopener">Get directions ↗</a>
+      <div class="reveal center" style="margin-top:clamp(46px,6vw,76px)">
+        <p class="eyebrow">Once you're here</p>
+        <h3 class="display" style="font-size:clamp(2.2rem,4.6vw,3.2rem);margin-bottom:.12em">Around Gwalior</h3>
+        <p class="lead" style="max-width:48ch;margin:0 auto">Come a little early or stay a day longer — there's plenty to see in town and just beyond.</p>
+      </div>
+      <div class="tgrid">
+        <div class="tcard reveal">
+          <span class="thead-ic" aria-hidden="true">❖</span>
+          <h4>In Gwalior</h4>
+          <p><b>Gwalior Fort</b> — the hilltop "pearl of fortresses," with royal palaces, thousand-year-old temples and an evening sound-&amp;-light show.</p>
+          <p>Also worth a wander: <b>Jai Vilas Palace &amp; Scindia Museum</b> (home of the silver toy-train that once poured wine at dinner), the <b>Sas-Bahu</b> and <b>Teli-ka-Mandir</b> temples, <b>Tansen's tomb</b>, and the modern <b>Sun Temple</b>.</p>
+        </div>
+        <div class="tcard reveal">
+          <span class="thead-ic" aria-hidden="true">❀</span>
+          <h4>Day trips</h4>
+          <p><b>Orchha</b> — ~120 km (~2½ hrs): a riverside town of forts, painted palaces and grand cenotaphs along the Betwa.</p>
+          <p><b>Agra</b> — ~120 km: the Taj Mahal and Agra Fort, only about an hour away on the fast train.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -795,7 +792,7 @@
   </section>
 
   <!-- ===================== PLAYLIST ===================== -->
-  <section class="section section--red" id="playlist">
+  <section class="section section--red" id="playlist" hidden>
     <img class="accent" src="assets/cluster.png" alt="" aria-hidden="true" style="top:-30px;right:-66px;width:220px;transform:scaleX(-1);opacity:.8">
     <div class="wrap center">
       <p class="eyebrow reveal">Set the mood</p>
@@ -813,6 +810,23 @@
       </div>
       <button id="plAdminToggle" class="pl-admin-link" type="button">Curate · admin</button>
       <div id="plAdmin" class="pl-admin" hidden></div>
+    </div>
+  </section>
+
+  <!-- ===================== A LITTLE FUN — GAMES ===================== -->
+  <section class="section section--red" id="games">
+    <img class="accent" src="assets/cluster.png" alt="" aria-hidden="true" style="top:-30px;left:-64px;width:220px;opacity:.8">
+    <div class="wrap center">
+      <p class="eyebrow reveal">A little fun</p>
+      <h2 class="display reveal">Marriage Wordle</h2>
+      <p class="lead reveal" style="max-width:46ch;margin:0 auto">Six guesses to find today's word — always something from our wedding or our story. A new one lands each day.</p>
+    </div>
+    <div class="wrap">
+      <div class="wordle reveal" id="wordle">
+        <div class="wd-board" id="wdBoard" role="grid" aria-label="Wordle board"></div>
+        <p class="wd-msg" id="wdMsg" aria-live="polite"></p>
+        <div class="wd-keys" id="wdKeys" aria-label="Keyboard"></div>
+      </div>
     </div>
   </section>
 
@@ -838,19 +852,30 @@
     </div>
   </section>
 
-  <!-- ===================== A LITTLE FUN — GAMES ===================== -->
-  <section class="section section--red" id="games">
-    <img class="accent" src="assets/cluster.png" alt="" aria-hidden="true" style="top:-30px;left:-64px;width:220px;opacity:.8">
+  <!-- ===================== RSVP ===================== -->
+  <section class="section section--deep" id="rsvp">
+    <img class="accent" src="assets/cluster.png" alt="" aria-hidden="true" style="bottom:-30px;left:-70px;width:220px;opacity:.8">
+    <img class="accent" src="assets/cluster.png" alt="" aria-hidden="true" style="bottom:-30px;right:-70px;width:220px;opacity:.8;transform:scaleX(-1)">
     <div class="wrap center">
-      <p class="eyebrow reveal">A little fun</p>
-      <h2 class="display reveal">Marriage Wordle</h2>
-      <p class="lead reveal" style="max-width:46ch;margin:0 auto">Six guesses to find today's word — always something from our wedding or our story. A new one lands each day.</p>
+      <p class="eyebrow reveal">Will you join us?</p>
+      <h2 class="display reveal">Kindly reply</h2>
+      <p class="lead reveal" style="max-width:46ch;margin:0 auto">Tell us you're coming and when you'll arrive — so we can plan your welcome in Gwalior.</p>
     </div>
-    <div class="wrap">
-      <div class="wordle reveal" id="wordle">
-        <div class="wd-board" id="wdBoard" role="grid" aria-label="Wordle board"></div>
-        <p class="wd-msg" id="wdMsg" aria-live="polite"></p>
-        <div class="wd-keys" id="wdKeys" aria-label="Keyboard"></div>
+    <div class="rsvp-card reveal" id="rsvpCard">
+      <form class="rsvp-form" id="rsvpForm" novalidate>
+        <div class="field"><label for="fullname">Full name(s)</label><input id="fullname" name="fullname" type="text" placeholder="Who's coming?" required></div>
+        <div class="field"><label for="guests">Number of guests</label>
+          <select id="guests" name="guests"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6+</option></select></div>
+        <div class="row2">
+          <div class="field"><label for="adate">Arrival date</label><input id="adate" name="adate" type="date" min="2026-11-16" max="2026-11-23"></div>
+          <div class="field"><label for="atime">Arrival time</label><input id="atime" name="atime" type="time"></div>
+        </div>
+        <button type="submit" class="seal"><i class="seal__i"></i><small>seal &amp; send</small></button>
+        <p class="deadline">Kindly respond by 30 September 2026.</p>
+      </form>
+      <div class="rsvp-success">
+        <div class="big">Thank you, <span id="rsvpName">friend</span>!</div>
+        <p>Your reply is in — we can't wait to welcome you to Gwalior.</p>
       </div>
     </div>
   </section>
