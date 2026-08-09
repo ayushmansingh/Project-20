@@ -1231,7 +1231,7 @@
         if(!d||d.error){ msg.textContent='Hmm, try that again.'; return; }
         history.push({g:guess,p:d.pattern}); paintRow(row,guess,d.pattern,true);
         if(d.win){ over=true; setTimeout(()=>{ msg.textContent="🎉 You're invited!"; msg.classList.add('wd-win'); bounce(row); }, LEN*170); }
-        else { row++; col=0; if(row>=MAXR){ over=true; setTimeout(()=>{ msg.textContent='Out of guesses — try again tomorrow!'; }, LEN*170); } else msg.textContent=''; }
+        else { row++; col=0; if(row>=MAXR){ over=true; setTimeout(()=>{ msg.textContent="Out of guesses — the word was INVITE, and you're invited!"; msg.classList.add('wd-win'); }, LEN*170); } else msg.textContent=''; }
         stash();
       }).catch(()=>{ busy=false; msg.textContent='Connection hiccup — try again.'; });
   }
@@ -1256,7 +1256,7 @@
     row=history.length; over=!!s.over || row>=MAXR;
     const won=history.length && history[history.length-1].p.every(p=>p==='hit');
     if(won){ over=true; msg.textContent="🎉 You're invited!"; msg.classList.add('wd-win'); }
-    else if(over){ msg.textContent='Try again tomorrow!'; }
+    else if(over){ msg.textContent="Out of guesses — the word was INVITE, and you're invited!"; msg.classList.add('wd-win'); }
   }
   document.addEventListener('keydown',e=>{
     if(!visible||over||busy) return;
