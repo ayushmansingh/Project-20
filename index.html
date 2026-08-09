@@ -151,6 +151,10 @@
   .photo span{font-style:italic;font-size:15px;opacity:.8;letter-spacing:.02em}
   .photo i{font-size:26px}
   .chapter-photo{width:100%;height:auto;display:block;border-radius:6px;border:1px solid rgba(154,122,48,.4);box-shadow:0 18px 40px -28px rgba(60,16,12,.5)}
+  .chapter-photos{display:grid;grid-template-columns:1fr 1fr;gap:clamp(8px,1.5vw,14px)}
+  .chapter-photos img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;border-radius:6px;
+    border:1px solid rgba(154,122,48,.4);box-shadow:0 18px 40px -28px rgba(60,16,12,.5)}
+  .chapter-photos img:last-child{object-position:center 30%}
   .pullquote{text-align:center;max-width:18ch;margin:clamp(40px,6vw,70px) auto 0;font-family:"Great Vibes",cursive;
     font-size:clamp(2.2rem,5vw,3.6rem);color:var(--red);line-height:1.1}
 
@@ -585,7 +589,10 @@
           <h3>Two proposals</h3>
           <p>This May we went to Scotland. He proposed in the fog on the Old Man of the Storr, on Skye. A few days later, by the fountain in Edinburgh, she proposed right back. We're counting both.</p>
         </div>
-        <img class="chapter-photo reveal" src="assets/story/proposal.jpg" alt="The proposal on the Old Man of the Storr, Skye" loading="lazy">
+        <div class="chapter-photos reveal">
+          <img src="assets/story/proposal.jpg" alt="The proposal in the fog, Old Man of the Storr, Skye" loading="lazy">
+          <img src="assets/story/proposal-2.jpeg" alt="The second proposal, by the fountain in Edinburgh" loading="lazy">
+        </div>
       </div>
       <p class="pullquote reveal">…and now, Gwalior.</p>
     </div>
