@@ -391,6 +391,47 @@
   .wd-key.present{background:var(--gold);color:var(--red-deep)}
   .wd-key.miss{background:rgba(20,4,4,.5);color:var(--tx-mut)}
 
+  /* ---------- Games tabs + Crossword ---------- */
+  .gtabs{display:flex;gap:5px;background:rgba(251,243,228,.1);border:1px solid rgba(201,162,78,.4);border-radius:999px;
+    padding:5px;max-width:360px;margin:clamp(20px,3vw,30px) auto 0}
+  .gtab{flex:1;border:none;background:transparent;cursor:pointer;font-family:"Cormorant Garamond",serif;border-radius:999px;
+    padding:10px 12px;color:#FBF3E4;transition:background .2s}
+  .gtab b{font-size:16px;font-weight:600}
+  .gtab.is-on{background:var(--gold)}
+  .gtab.is-on b{color:var(--red-deep)}
+  .gpane[hidden]{display:none}
+  .gpane{animation:tfade .25s ease}
+  .crossword{max-width:540px;margin:clamp(22px,3.5vw,38px) auto 0}
+  .cw-grid{display:grid;gap:3px;width:min(360px,94vw);margin:0 auto}
+  .cw-cell{position:relative;aspect-ratio:1}
+  .cw-cell input{width:100%;height:100%;border:1px solid rgba(201,162,78,.5);border-radius:3px;background:#FBF3E4;
+    text-align:center;text-transform:uppercase;font-family:"Cormorant Garamond",serif;font-weight:600;
+    font-size:clamp(15px,4.4vw,20px);color:var(--red);caret-color:var(--red);padding:0;outline:none}
+  .cw-cell input:focus{border-color:var(--red)}
+  .cw-cell.active input{background:#F3E0B9}
+  .cw-cell.cursor input{background:var(--gold);color:var(--red-deep)}
+  .cw-cell.good input{background:var(--olive);border-color:var(--olive);color:#FBF3E4}
+  .cw-cell.bad input{color:#b23a2f;background:#F7DACF}
+  .cw-cell.revealed input{color:var(--gold-deep)}
+  .cw-num{position:absolute;top:0;left:2px;font-size:9px;line-height:1.25;color:var(--gold-deep);pointer-events:none}
+  .cw-clue{margin:14px auto 0;max-width:440px;text-align:center;font-style:italic;color:#F3E6D2;font-size:16px;min-height:22px}
+  .cw-clue b{color:var(--gold);font-style:normal;letter-spacing:.03em}
+  .cw-actions{display:flex;gap:9px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+  .cw-btn{font-family:"Cormorant Garamond",serif;font-size:15px;letter-spacing:.03em;color:#FBF3E4;background:rgba(251,243,228,.14);
+    border:1px solid rgba(201,162,78,.5);border-radius:999px;padding:9px 18px;cursor:pointer;transition:all .2s}
+  .cw-btn:hover{background:var(--gold);color:var(--red-deep);border-color:var(--gold)}
+  .cw-btn--ghost{background:transparent;opacity:.85}
+  .cw-msg{text-align:center;margin:12px 0 0;font-style:italic;color:var(--tx-mut);min-height:22px;font-size:16px}
+  .cw-msg.cw-win{color:var(--gold);font-style:normal;font-weight:600}
+  .cw-clues{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,3vw,34px);margin-top:clamp(22px,3vw,34px)}
+  .cw-col h4{font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:9px}
+  .cw-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+  .cw-list li{display:flex;gap:9px;font-size:15px;line-height:1.4;color:#F3E6D2;cursor:pointer;padding:4px 5px;border-radius:5px;transition:background .15s}
+  .cw-list li:hover{background:rgba(251,243,228,.08)}
+  .cw-list li.on{background:rgba(201,162,78,.22)}
+  .cw-list li b{color:var(--gold);font-weight:600;min-width:15px}
+  @media(max-width:560px){.cw-clues{grid-template-columns:1fr}}
+
   /* ---------- scroll-drawn kolam spine ---------- */
   .kolam{position:absolute;top:0;left:0;width:100%;pointer-events:none;z-index:6;overflow:visible}
   .kolam__v{position:absolute;top:0;overflow:visible}
@@ -841,16 +882,39 @@
     <img class="accent" src="assets/cluster.png" alt="" aria-hidden="true" style="top:-30px;left:-64px;width:220px;opacity:.8">
     <div class="wrap center">
       <p class="eyebrow reveal">A little fun</p>
-      <h2 class="display reveal">Marriage Wordle</h2>
-      <p class="lead reveal" style="max-width:46ch;margin:0 auto">Six guesses to find today's word — always something from our wedding or our story. A new one lands each day.</p>
+      <h2 class="display reveal">Play along</h2>
+      <p class="lead reveal" style="max-width:48ch;margin:0 auto">Two little games about us — a crossword of our story, and today's Wordle.</p>
     </div>
     <div class="wrap">
-      <div class="wordle reveal" id="wordle">
-        <div class="wd-board" id="wdBoard" role="grid" aria-label="Wordle board"></div>
-        <p class="wd-msg" id="wdMsg" aria-live="polite"></p>
-        <div class="wd-keys" id="wdKeys" aria-label="Keyboard"></div>
+      <div class="gtabs reveal" role="tablist" aria-label="Games">
+        <button class="gtab is-on" type="button" data-gp="cw" role="tab" aria-selected="true"><b>Crossword</b></button>
+        <button class="gtab" type="button" data-gp="wd" role="tab" aria-selected="false"><b>Wordle</b></button>
       </div>
-    </div>
+
+      <div class="gpane is-on" data-gp="cw" role="tabpanel">
+        <div class="crossword reveal" id="crossword">
+          <div class="cw-grid" id="cwGrid"></div>
+          <div class="cw-clue" id="cwClue" aria-live="polite"></div>
+          <div class="cw-actions">
+            <button type="button" class="cw-btn" id="cwCheck">Check</button>
+            <button type="button" class="cw-btn" id="cwHint">Reveal a letter</button>
+            <button type="button" class="cw-btn cw-btn--ghost" id="cwClear">Clear</button>
+          </div>
+          <p class="cw-msg" id="cwMsg" aria-live="polite"></p>
+          <div class="cw-clues">
+            <div class="cw-col"><h4>Across</h4><ol id="cwAcross" class="cw-list"></ol></div>
+            <div class="cw-col"><h4>Down</h4><ol id="cwDown" class="cw-list"></ol></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gpane" data-gp="wd" role="tabpanel" hidden>
+        <div class="wordle reveal" id="wordle">
+          <div class="wd-board" id="wdBoard" role="grid" aria-label="Wordle board"></div>
+          <p class="wd-msg" id="wdMsg" aria-live="polite"></p>
+          <div class="wd-keys" id="wdKeys" aria-label="Keyboard"></div>
+        </div>
+      </div>
   </section>
 
   <!-- ===================== SHARED WEDDING ALBUM ===================== -->
@@ -1207,6 +1271,110 @@
   if('IntersectionObserver' in window && wrapEl){
     new IntersectionObserver(es=>es.forEach(en=>{ visible=en.isIntersecting; })).observe(wrapEl);
   } else visible=true;
+})();
+
+/* ---------- A little fun: games tabs ---------- */
+(function(){
+  var tabs=[].slice.call(document.querySelectorAll('.gtab'));
+  if(!tabs.length) return;
+  var panes=[].slice.call(document.querySelectorAll('.gpane'));
+  tabs.forEach(function(t){ t.addEventListener('click',function(){
+    var k=t.getAttribute('data-gp');
+    tabs.forEach(function(x){ var on=x===t; x.classList.toggle('is-on',on); x.setAttribute('aria-selected',on?'true':'false'); });
+    panes.forEach(function(p){ var show=p.getAttribute('data-gp')===k; p.classList.toggle('is-on',show); p.hidden=!show; });
+  }); });
+})();
+
+/* ---------- Crossword (our story) ---------- */
+(function(){
+  var gridEl=document.getElementById('cwGrid'); if(!gridEl) return;
+  var clueEl=document.getElementById('cwClue'), msg=document.getElementById('cwMsg');
+  var CW={rows:11,cols:9,
+    grid:["N........","O...E....","V...X....","E...C.P..","M.M.H.R..","BANGALORE","E.N.N.P.L","R.I.G.O.E","..T.E.S.V","......A.E","......L.N"],
+    nums:{"0-0":1,"1-4":2,"3-6":3,"4-2":4,"5-0":5,"5-8":6},
+    across:[{num:5,r:5,c:0,len:9,clue:"The city waiting to become home"}],
+    down:[
+      {num:1,r:0,c:0,len:8,clue:"When the long story finally finds its celebration"},
+      {num:2,r:1,c:4,len:8,clue:"Two chose the same course, across the seas and quite by chance"},
+      {num:3,r:3,c:6,len:8,clue:"A hike in the fog, with one question waiting at the top"},
+      {num:4,r:4,c:2,len:5,clue:"Two disciplines, one campus"},
+      {num:6,r:5,c:8,len:6,clue:"How far back their first chapter goes"}
+    ]};
+  var R=CW.rows,C=CW.cols,inputs={},dir='across',cur=null;
+  function sol(r,c){ var row=CW.grid[r]; if(!row||r<0||r>=R||c<0||c>=C) return null; var ch=row.charAt(c); return (ch&&ch!=='.')?ch:null; }
+  function key(r,c){ return r+'-'+c; }
+  function entryAt(r,c,d){ var L=d==='across'?CW.across:CW.down; for(var i=0;i<L.length;i++){ var e=L[i];
+    if(d==='across'){ if(e.r===r&&c>=e.c&&c<e.c+e.len) return e; } else if(e.c===c&&r>=e.r&&r<e.r+e.len) return e; } return null; }
+  function cellsOf(e,d){ var a=[]; for(var i=0;i<e.len;i++) a.push(d==='across'?{r:e.r,c:e.c+i}:{r:e.r+i,c:e.c}); return a; }
+
+  gridEl.style.gridTemplateColumns='repeat('+C+',1fr)';
+  for(var r=0;r<R;r++) for(var c=0;c<C;c++){
+    var cell=document.createElement('div'), s=sol(r,c);
+    if(!s){ cell.className='cw-cell cw-cell--blank'; gridEl.appendChild(cell); continue; }
+    cell.className='cw-cell';
+    var n=CW.nums[key(r,c)];
+    if(n){ var ns=document.createElement('span'); ns.className='cw-num'; ns.textContent=n; cell.appendChild(ns); }
+    var inp=document.createElement('input');
+    inp.type='text'; inp.maxLength=1; inp.setAttribute('inputmode','latin'); inp.autocapitalize='characters'; inp.autocomplete='off'; inp.spellcheck=false;
+    inp.dataset.r=r; inp.dataset.c=c;
+    inp.addEventListener('focus',onFocus); inp.addEventListener('pointerdown',onPointer);
+    inp.addEventListener('input',onInput); inp.addEventListener('keydown',onKey);
+    cell.appendChild(inp); inputs[key(r,c)]=inp; gridEl.appendChild(cell);
+  }
+  function onFocus(e){ var r=+e.target.dataset.r,c=+e.target.dataset.c; if(!(cur&&cur.r===r&&cur.c===c)){ cur={r:r,c:c}; if(!entryAt(r,c,dir)) dir=dir==='across'?'down':'across'; } highlight(); }
+  function onPointer(e){ var r=+e.target.dataset.r,c=+e.target.dataset.c; if(cur&&cur.r===r&&cur.c===c){ var nd=dir==='across'?'down':'across'; if(entryAt(r,c,nd)) dir=nd; highlight(); } }
+  function highlight(){
+    for(var k in inputs) inputs[k].parentNode.classList.remove('active','cursor');
+    var lis=document.querySelectorAll('.cw-list li'); for(var i=0;i<lis.length;i++) lis[i].classList.remove('on');
+    if(!cur) return;
+    var e=entryAt(cur.r,cur.c,dir); if(!e){ dir=dir==='across'?'down':'across'; e=entryAt(cur.r,cur.c,dir); } if(!e) return;
+    cellsOf(e,dir).forEach(function(p){ var inp=inputs[key(p.r,p.c)]; if(inp) inp.parentNode.classList.add('active'); });
+    var ci=inputs[key(cur.r,cur.c)]; if(ci) ci.parentNode.classList.add('cursor');
+    clueEl.innerHTML='<b>'+e.num+' '+(dir==='across'?'Across':'Down')+'</b> · '+e.clue;
+    var li=document.querySelector('.cw-list li[data-d="'+dir+'"][data-n="'+e.num+'"]'); if(li) li.classList.add('on');
+  }
+  function focusCell(r,c){ var inp=inputs[key(r,c)]; if(inp) inp.focus(); }
+  function step(delta){ var e=entryAt(cur.r,cur.c,dir); if(!e) return; var cells=cellsOf(e,dir), idx=-1;
+    for(var i=0;i<cells.length;i++) if(cells[i].r===cur.r&&cells[i].c===cur.c) idx=i;
+    var ni=idx+delta; if(ni>=0&&ni<cells.length){ cur={r:cells[ni].r,c:cells[ni].c}; focusCell(cur.r,cur.c); highlight(); } }
+  function moveGrid(dr,dc){ var r=cur.r+dr,c=cur.c+dc;
+    while(r>=0&&r<R&&c>=0&&c<C&&!sol(r,c)){ r+=dr; c+=dc; }
+    if(sol(r,c)){ dir=dr!==0?'down':'across'; if(!entryAt(r,c,dir)) dir=dir==='across'?'down':'across'; cur={r:r,c:c}; focusCell(r,c); highlight(); } }
+  function onInput(e){ var v=e.target.value.toUpperCase().replace(/[^A-Z]/g,''); e.target.value=v.slice(-1);
+    e.target.parentNode.classList.remove('good','bad','revealed'); save();
+    if(e.target.value){ step(1); if(allCorrect()) win(); } }
+  function onKey(e){
+    if(e.key==='Backspace'){ if(!e.target.value){ e.preventDefault(); step(-1); var pi=inputs[key(cur.r,cur.c)]; if(pi){ pi.value=''; pi.parentNode.classList.remove('good','bad','revealed'); } save(); } return; }
+    var mv={ArrowRight:[0,1],ArrowLeft:[0,-1],ArrowDown:[1,0],ArrowUp:[-1,0]}[e.key];
+    if(mv){ e.preventDefault(); moveGrid(mv[0],mv[1]); }
+    else if(e.key===' '||e.key==='Enter'){ e.preventDefault(); var nd=dir==='across'?'down':'across'; if(entryAt(cur.r,cur.c,nd)) dir=nd; highlight(); }
+  }
+  function mkClue(e,d){ var li=document.createElement('li'); li.setAttribute('data-d',d); li.setAttribute('data-n',e.num);
+    li.innerHTML='<b>'+e.num+'</b><span>'+e.clue+'</span>';
+    li.addEventListener('click',function(){ dir=d; var cells=cellsOf(e,d), t=cells[0];
+      for(var i=0;i<cells.length;i++){ if(!inputs[key(cells[i].r,cells[i].c)].value){ t=cells[i]; break; } }
+      cur={r:t.r,c:t.c}; focusCell(t.r,t.c); highlight(); }); return li; }
+  function allCorrect(){ for(var k in inputs){ var rc=k.split('-'); if(inputs[k].value!==sol(+rc[0],+rc[1])) return false; } return true; }
+  function check(){ var right=true,filled=true;
+    for(var k in inputs){ var inp=inputs[k], rc=k.split('-'), s=sol(+rc[0],+rc[1]); inp.parentNode.classList.remove('good','bad');
+      if(!inp.value){ filled=false; right=false; continue; }
+      if(inp.value===s) inp.parentNode.classList.add('good'); else { inp.parentNode.classList.add('bad'); right=false; } }
+    if(right) win(); else msg.textContent = filled ? 'Not quite — the red squares need another look.' : 'So far so good — keep going!'; }
+  function hint(){ if(!cur) return; var s=sol(cur.r,cur.c), inp=inputs[key(cur.r,cur.c)]; if(!s||!inp) return;
+    inp.value=s; inp.parentNode.classList.remove('bad'); inp.parentNode.classList.add('revealed'); save(); step(1); if(allCorrect()) win(); }
+  function clearAll(){ for(var k in inputs){ inputs[k].value=''; inputs[k].parentNode.classList.remove('good','bad','revealed'); } msg.textContent=''; msg.classList.remove('cw-win'); save(); }
+  function win(){ msg.textContent='🎉 You solved it — our whole story, one grid.'; msg.classList.add('cw-win');
+    var i=0; for(var k in inputs){ (function(el,idx){ setTimeout(function(){ el.style.transform='translateY(-6px)'; setTimeout(function(){ el.style.transform=''; },200); }, idx*16); })(inputs[k].parentNode,i++); } }
+  function save(){ try{ var d={}; for(var k in inputs){ if(inputs[k].value) d[k]=inputs[k].value; } localStorage.setItem('cw:bng1',JSON.stringify(d)); }catch(e){} }
+  function restore(){ try{ var d=JSON.parse(localStorage.getItem('cw:bng1')||'{}'); for(var k in d){ if(inputs[k]) inputs[k].value=d[k]; } }catch(e){} }
+
+  document.getElementById('cwCheck').addEventListener('click',check);
+  document.getElementById('cwHint').addEventListener('click',hint);
+  document.getElementById('cwClear').addEventListener('click',clearAll);
+  CW.across.forEach(function(e){ document.getElementById('cwAcross').appendChild(mkClue(e,'across')); });
+  CW.down.forEach(function(e){ document.getElementById('cwDown').appendChild(mkClue(e,'down')); });
+  restore();
+  cur={r:CW.across[0].r,c:CW.across[0].c}; dir='across'; highlight();
 })();
 
 /* ---------- scroll-drawn kolam spine ---------- */
