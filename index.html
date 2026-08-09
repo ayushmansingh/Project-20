@@ -1287,16 +1287,18 @@
 (function(){
   var gridEl=document.getElementById('cwGrid'); if(!gridEl) return;
   var clueEl=document.getElementById('cwClue'), msg=document.getElementById('cwMsg');
-  var CW={rows:11,cols:9,
-    grid:["N........","O...E....","V...X....","E...C.P..","M.M.H.R..","BANGALORE","E.N.N.P.L","R.I.G.O.E","..T.E.S.V","......A.E","......L.N"],
-    nums:{"0-0":1,"1-4":2,"3-6":3,"4-2":4,"5-0":5,"5-8":6},
-    across:[{num:5,r:5,c:0,len:9,clue:"The city waiting to become home"}],
+  var CW={rows:8,cols:11,
+    grid:["MNNIT.....E",".O........L",".V........E",".EXCHANGE.V",".M........E",".BANGALOREN",".E.........","PROPOSAL..."],
+    nums:{"0-0":2,"0-1":3,"0-10":1,"3-1":4,"5-1":5,"7-0":6},
+    across:[
+      {num:2,r:0,c:0,len:5,clue:"Two disciplines, one campus"},
+      {num:4,r:3,c:1,len:8,clue:"Two chose the same course, across the seas and quite by chance"},
+      {num:5,r:5,c:1,len:9,clue:"The city waiting to become home"},
+      {num:6,r:7,c:0,len:8,clue:"A hike in the fog, with one question waiting at the top"}
+    ],
     down:[
-      {num:1,r:0,c:0,len:8,clue:"When the long story finally finds its celebration"},
-      {num:2,r:1,c:4,len:8,clue:"Two chose the same course, across the seas and quite by chance"},
-      {num:3,r:3,c:6,len:8,clue:"A hike in the fog, with one question waiting at the top"},
-      {num:4,r:4,c:2,len:5,clue:"Two disciplines, one campus"},
-      {num:6,r:5,c:8,len:6,clue:"How far back their first chapter goes"}
+      {num:1,r:0,c:10,len:6,clue:"How far back their first chapter goes"},
+      {num:3,r:0,c:1,len:8,clue:"When the long story finally finds its celebration"}
     ]};
   var R=CW.rows,C=CW.cols,inputs={},dir='across',cur=null;
   function sol(r,c){ var row=CW.grid[r]; if(!row||r<0||r>=R||c<0||c>=C) return null; var ch=row.charAt(c); return (ch&&ch!=='.')?ch:null; }
@@ -1363,8 +1365,8 @@
   function clearAll(){ for(var k in inputs){ inputs[k].value=''; inputs[k].parentNode.classList.remove('good','bad','revealed'); } msg.textContent=''; msg.classList.remove('cw-win'); save(); }
   function win(){ msg.textContent='🎉 You solved it — our whole story, one grid.'; msg.classList.add('cw-win');
     var i=0; for(var k in inputs){ (function(el,idx){ setTimeout(function(){ el.style.transform='translateY(-6px)'; setTimeout(function(){ el.style.transform=''; },200); }, idx*16); })(inputs[k].parentNode,i++); } }
-  function save(){ try{ var d={}; for(var k in inputs){ if(inputs[k].value) d[k]=inputs[k].value; } localStorage.setItem('cw:bng1',JSON.stringify(d)); }catch(e){} }
-  function restore(){ try{ var d=JSON.parse(localStorage.getItem('cw:bng1')||'{}'); for(var k in d){ if(inputs[k]) inputs[k].value=d[k]; } }catch(e){} }
+  function save(){ try{ var d={}; for(var k in inputs){ if(inputs[k].value) d[k]=inputs[k].value; } localStorage.setItem('cw:bng2',JSON.stringify(d)); }catch(e){} }
+  function restore(){ try{ var d=JSON.parse(localStorage.getItem('cw:bng2')||'{}'); for(var k in d){ if(inputs[k]) inputs[k].value=d[k]; } }catch(e){} }
 
   document.getElementById('cwCheck').addEventListener('click',check);
   document.getElementById('cwHint').addEventListener('click',hint);
