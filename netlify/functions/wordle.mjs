@@ -2,7 +2,7 @@
 // GET  -> { length, id }            (today's word length + day id; never the word)
 // POST { guess } -> { pattern, win, length, id }   (per-letter colours only)
 
-const WORDS = ['SAGAI', 'HALDI', 'PHERAS', 'GWALIOR'];
+const WORDS = ['INVITE'];
 
 function json(status, body) {
   return new Response(JSON.stringify(body), {
