@@ -495,9 +495,9 @@
     html{scroll-behavior:auto}
   }
 </style>
-<!-- Family-friendly link: adding ?v=k9f2m to the URL hides the "Our story" section. Change the token below to rotate it. -->
-<style>.hide-story #story,.hide-story a[href="#story"]{display:none!important}</style>
-<script>(function(){try{if(new URLSearchParams(location.search).get('v')==='k9f2m')document.documentElement.classList.add('hide-story');}catch(e){}})();</script>
+<!-- Family-friendly link: adding ?v=k9f2m to the URL hides "Our story", "Us, lately" and the games. Change the token below to rotate it. -->
+<style>.fam-mode #story,.fam-mode #gallery,.fam-mode #games,.fam-mode a[href="#story"]{display:none!important}</style>
+<script>(function(){try{if(new URLSearchParams(location.search).get('v')==='k9f2m')document.documentElement.classList.add('fam-mode');}catch(e){}})();</script>
 </head>
 <body>
 
